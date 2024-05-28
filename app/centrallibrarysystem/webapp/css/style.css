@@ -1,0 +1,56 @@
+/* Enter your custom styles here */
+.background {
+    background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgpUgeZ3_LTSe4Z9I9qy59nxdslUSZ5VLAPxuj3Nh_rZSlI4F0of1cpf6PU3Vadj4DuWILb4SawnyNVaqUxi_dIryw4ChSD2zKskK77mNK3JVi0kATS9MEFVbGqa6_ortno0BiNiKQVUOA/s1600/yale+library.JPG');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+}
+.Adminbackground{
+    background-image: url('https://www.nativetitlesa.org/wp-content/uploads/2022/04/AW-Website-8.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+}
+
+.title {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: fuchsia;
+}
+
+.subtitle {
+    font-size: xx-large;
+    margin-bottom: 2rem;
+    color: rgb(34, 248, 6);
+    
+}
+
+.button-spacing {
+    margin-right: 3rem;
+}
+.Button-spacing2{
+    margin-right: 2rem;
+}
+
+.customParagraph {
+    font-weight: bold;
+    font-size: x-large;
+    color: rgb(255, 5, 213);
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.SubtitleAdmin{
+    font-size: xx-large;
+    margin-bottom: 2rem;
+    color: rgb(182, 10, 10);
+}
+
+.Admintitle{
+    font-style: italic;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: rgba(184, 197, 4, 0.938);
+}

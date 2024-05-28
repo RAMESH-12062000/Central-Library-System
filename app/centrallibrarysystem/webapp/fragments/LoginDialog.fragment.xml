@@ -1,0 +1,71 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="dialog1"
+        resizable="true"
+        draggable="true"
+        contentWidth="30%"
+        title="Login"
+    >
+        <beginButton>
+            <Button
+                id="idLoginButton"
+                text="Login"
+                press="onLoginPress"
+                type="Success"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                id="idCancelButton"
+                text="Cancel"
+                press="onCloseLoginDialog"
+                type="Negative"
+            />
+        </endButton>
+
+        <content>
+            <form:SimpleForm
+                id="idLoginDetailsForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1"
+                singleContainerFullSize="false"
+            >
+                <Label
+                    id="idUsernameLabel"
+                    text="Username"
+                />
+                <Input
+                    placeholder="Enter UserName"
+                    id="idUsernameInput"
+                    value=""
+                />
+                <Label
+                    id="idPassword"
+                    text="Password"
+                />
+                <Input
+                    placeholder="Enter Password"
+                    id="idPasswordInput"
+                    value=""
+                    type="Password"
+                />
+            </form:SimpleForm>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

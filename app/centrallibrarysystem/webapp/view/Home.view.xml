@@ -1,0 +1,51 @@
+<mvc:View
+    xmlns:layout="sap.ui.layout"
+    xmlns:mvc="sap.ui.core.mvc"
+    controllerName="com.app.centrallibrarysystem.controller.Home"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <App id="idApp">
+        <Page id="idPage" showHeader="false" class="background">
+            <VBox id="idVBox"
+                justifyContent="Center"
+                alignItems="Center"
+                width="100%"
+                height="100%"
+            >
+                <Title
+                    id="idCentralLibrarySystemTitle"
+                    text="Central Library System"
+                    level="H1"
+                    class="title"
+                />
+                <Label id="idLable" text="ARTIHCUS GLOBAL LIBRARY..." class="subtitle"/>
+                <Text id="idText" text="#NOTHING IS PLEASANTER THAN EXPLORING A LIBRARY..!!  -Walter Savage" class="customParagraph" />
+                <HBox id="idHBox">
+                    <Button
+                        id="idBtnAdminLogin"
+                        text="Login"
+                        type="Emphasized"
+                        press="onLoginDialogPress"
+                        class="button-spacing"
+                    />
+                    <!-- <Button
+                        id="idBtnuserLogin"
+                        text="User Login"
+                        type="Emphasized"
+                        press="onUserLoginPress"
+                        class="button-spacing"
+                    /> -->
+                    <Button
+                            id="idBtnRegister"
+                            text="Register"
+                            icon="sap-icon://add-employee"
+                            tooltip="Add New User"
+                            type="Emphasized"
+                            press="onRegisterUserPress"
+                        />
+                </HBox>
+            </VBox>
+        </Page>
+    </App>
+</mvc:View>

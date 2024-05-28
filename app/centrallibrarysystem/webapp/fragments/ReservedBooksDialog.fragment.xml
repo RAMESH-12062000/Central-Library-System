@@ -1,0 +1,85 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Dialog
+        id="idReservedBooksTable"
+        resizable="true"
+        draggable="true"
+        contentWidth="85%"
+        contentHeight="85%"
+        title="Reserved Books"
+    >
+        <content>
+            <Table
+                id="myTable"
+                inset="false"
+                items="{/Reserved Books}"
+            >
+                <headerToolbar>
+                    <Toolbar id="idToolBar">
+                        <Title
+                            id="idTableHeader"
+                            text="Product Table"
+                        />
+                        <ToolbarSpacer id="idSpacer" />
+                        <Button
+                            id="idCloseButton"
+                            text="close"
+                            press="onCloseReservedBooks"
+                        />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column id="idcol1">
+                        <Text
+                            id="idColUserID"
+                            text="User ID"
+                        />
+                    </Column>
+                    <Column id="idcol2">
+                        <Text
+                            id="idUserName"
+                            text="Name"
+                        />
+                    </Column>
+                    <Column id="idcol3">
+                        <Text
+                            id="idBookName"
+                            text="BookName"
+                        />
+                    </Column>
+                    <Column id="idcol4">
+                        <Text
+                            id="idISBNNumber"
+                            text="ISBN Number"
+                        />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem id="idColListItems">
+                        <cells>
+                            <Text
+                                id="idUserIdValue"
+                                text="{UserID}"
+                            />
+                            <Text
+                                id="idNameValue"
+                                text="{Name}"
+                            />
+                            <Text
+                                id="idBookNameValue"
+                                text="{Books/Title}"
+                            />
+                            <Text
+                                id="idDueDateValue"
+                                text="{ReturnDate}"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,92 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="dialog"
+        resizable="false"
+        draggable="true"
+        contentWidth="30%"
+        title="Register Your Details:"
+    >
+        <beginButton>
+            <Button
+                id="idRegisterUserButton"
+                text="Submit"
+                press="onSubmitPress"
+                type="Success"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                id="idCancelRegisterUserButton"
+                text="Cancel Register"
+                press="onCloseRegisterSubmitDialog"
+                type="Negative"
+            />
+        </endButton>
+
+        <content>
+            <form:SimpleForm
+                id="idRegisterUserDetailsForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1"
+                singleContainerFullSize="false"
+            >
+                <Label
+                    id="idLablefName"
+                    text="First Name"
+                />
+                <Input id="idfNameInput" />
+
+                <Label
+                    id="idLablelName"
+                    text="Last Name"
+                />
+                <Input id="idlNameInput" />
+
+                <Label
+                    id="idLableEmail"
+                    text="Email"
+                />
+                <Input id="idEmailInput" />
+                <Label
+                    id="idLablePhoneNumber"
+                    text="Phone Number"
+                />
+                <Input id="idPhoneNumberInput" />
+
+                <Label
+                    id="idLableCreatePassword"
+                    text="Create Password"
+                />
+                <Input
+                    id="idCreatePasswordInput"
+                    type="Number"
+                />
+
+                <Label
+                    id="idLableReEnterPassword"
+                    text="Re-Enter Password"
+                />
+                <Input
+                    id="idReenterPasswordInput"
+                    type="Number"
+                />
+            </form:SimpleForm>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>
