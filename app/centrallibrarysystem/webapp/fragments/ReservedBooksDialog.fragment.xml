@@ -13,68 +13,72 @@
     >
         <content>
             <Table
-                id="myTable"
+                id="idReservedBooks"
                 inset="false"
                 items="{/Reserved Books}"
             >
                 <headerToolbar>
-                    <Toolbar id="idToolBar">
+                    <Toolbar id="idToolBarReserved">
                         <Title
-                            id="idTableHeader"
-                            text="Product Table"
+                            id="idTableReserved"
+                            text="Reserved Books from Users:"
                         />
-                        <ToolbarSpacer id="idSpacer" />
+                        <ToolbarSpacer id="IdToolBarSpacer" />
                         <Button
-                            id="idCloseButton"
-                            text="close"
+                            id="idCloseBtnReservedBooks"
+                            text="Close"
                             press="onCloseReservedBooks"
                         />
                     </Toolbar>
                 </headerToolbar>
                 <columns>
-                    <Column id="idcol1">
+                    <Column id="idColumnHeadingUserID">
                         <Text
-                            id="idColUserID"
+                            id="idColumnUserID"
                             text="User ID"
                         />
                     </Column>
-                    <Column id="idcol2">
+                    <Column id="idColumnHeadingBookName">
                         <Text
-                            id="idUserName"
-                            text="Name"
+                            id="idReservedBookName"
+                            text="Book Name"
                         />
                     </Column>
-                    <Column id="idcol3">
-                        <Text
-                            id="idBookName"
-                            text="BookName"
-                        />
-                    </Column>
-                    <Column id="idcol4">
+                    <Column id="idColumnHeadingISBN">
                         <Text
                             id="idISBNNumber"
                             text="ISBN Number"
                         />
                     </Column>
+                    <Column id="idColumnHeadingNotify">
+                        <Text
+                            id="idNotify"
+                            text="Notification[Sent/Decline]"
+                        />
+                    </Column>
                 </columns>
                 <items>
-                    <ColumnListItem id="idColListItems">
+                    <ColumnListItem id="idColumnList">
                         <cells>
                             <Text
-                                id="idUserIdValue"
+                                id="idUserId"
                                 text="{UserID}"
                             />
                             <Text
-                                id="idNameValue"
-                                text="{Name}"
-                            />
-                            <Text
-                                id="idBookNameValue"
+                                id="idBookNameItem"
                                 text="{Books/Title}"
                             />
                             <Text
-                                id="idDueDateValue"
-                                text="{ReturnDate}"
+                                id="idISBNItem"
+                                text="{Books/ISBN}"
+                            />
+                            <Button
+                                id="idNotifyButton"
+                                icon="sap-icon://delete"
+                                tooltip="Notification Sent"
+                                text="Sent"
+                                type="Success"
+                                press="onNotificationSentPress"
                             />
                         </cells>
                     </ColumnListItem>

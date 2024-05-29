@@ -51,7 +51,7 @@
                     text="Username"
                 />
                 <Input
-                    placeholder="Enter UserName"
+                    placeholder="Enter Username"
                     id="idUsernameInput"
                     value=""
                 />

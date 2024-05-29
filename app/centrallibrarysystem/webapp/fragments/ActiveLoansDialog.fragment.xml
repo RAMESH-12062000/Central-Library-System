@@ -24,11 +24,11 @@
                             text="Product Table"
                         />
                         <ToolbarSpacer id="idSpacer" />
-                        <Button
+                        <!-- <Button
                             id="idAddButton"
                             text="Add"
                             press="onAdd"
-                        />
+                        /> -->
                         <Button
                             id="idCloseButton"
                             text="close"
@@ -61,6 +61,12 @@
                             text="Due Date"
                         />
                     </Column>
+                    <Column id="idcol5">
+                        <Text
+                            id="idClearLoansBtn"
+                            text="Clear Loans"
+                        />
+                    </Column>
                 </columns>
                 <items>
                     <ColumnListItem id="idColListItems">
@@ -71,15 +77,23 @@
                             />
                             <Text
                                 id="idNameValue"
-                                text="{Name}"
+                                text="{users/Name}"
                             />
                             <Text
                                 id="idBookNameValue"
-                                text="{Book/Title}"
+                                text="{book/Title}"
                             />
                             <Text
                                 id="idDueDateValue"
                                 text="{ReturnDate}"
+                            />
+                            <Button
+                                id="idClearLoansButton"
+                                icon="sap-icon://delete"
+                                tooltip="Delete Loan"
+                                text="Close Loan"
+                                type="Negative"
+                                press="onClearLoanPress"
                             />
                         </cells>
                     </ColumnListItem>

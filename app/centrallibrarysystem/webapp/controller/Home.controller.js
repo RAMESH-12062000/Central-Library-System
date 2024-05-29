@@ -26,7 +26,7 @@ sap.ui.define([
                 }
                 this.onLoginDialog.open()
             },
-            
+
             //After login popup it will Navigates the through the credentials...
             onLoginPress: function () {
                 //const oRouter = this.getOwnerComponent().getRouter();
@@ -37,31 +37,31 @@ sap.ui.define([
                 var oModel = this.getView().getModel();
                 //var aUsers = oModel.getProperty("/users");
 
-                var aFilters =[
+                var aFilters = [
                     new Filter("Username", FilterOperator.EQ, sUsername),
                     new Filter("Password", FilterOperator.EQ, sPassword),
                 ];
 
-                oModel.read("/users",{
+                oModel.read("/users", {
                     filters: aFilters,
-                    success: function(oData){
-                        if(oData.results.length > 0){
+                    success: function (oData) {
+                        if (oData.results.length > 0) {
                             var oUser = oData.results[0];
                             var userid = oUser.ID;
                             MessageToast.show("Login successful!");
 
-                            if(oUser.userType === "admin"){
-                                this.getOwnerComponent().getRouter().navTo("RouteBooks",{id:userid});
-                            } else if (oUser.userType === "member"){
-                                this.getOwnerComponent().getRouter().navTo("RouteSingleUserPage",{id:userid})
+                            if (oUser.userType === "admin") {
+                                this.getOwnerComponent().getRouter().navTo("RouteBooks", { id: userid });
+                            } else if (oUser.userType === "member") {
+                                this.getOwnerComponent().getRouter().navTo("RouteSingleUserPage", { id: userid })
                             }
 
                             this.onCloseLoginDialog();
-                        } else{
+                        } else {
                             MessageToast.show("Invalid username or password.");
                         }
                     }.bind(this),
-                    error:function(oError){
+                    error: function (oError) {
                         MessageToast.show("Error during login process.");
                     }
                 });
@@ -86,20 +86,9 @@ sap.ui.define([
                     this.oRegisterUserPress.close()
                 }
             },
-
-            onCreateBook: async function () {
-                const oPayload = this.getView().getModel("localModel").getProperty("/"),
-                    oModel = this.getView().getModel("ModelV2");
-                try {  
-                    await this.createData(oModel, oPayload, "/Books");
-                    this.getView().byId("idBooksTable").getBinding("items").refresh();
-                    this.oCreateBookDialog.close();
-                } catch (error) {
-                    this.oCreateBookDialog.close();
-                    MessageBox.error("Some technical Issue");
-                }
-
-            },
+        
+            
+            
 
         });
     });

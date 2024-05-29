@@ -39,20 +39,32 @@
                 </f:snappedTitleOnMobile>
                 <f:navigationActions>
                     <Button
-                        id="idBtnFullScreen"
-                        icon="sap-icon://full-screen"
-                        type="Transparent"
+                        id="idReservedBooksBtn"
+                        text="Reserved Books"
+                        type="Emphasized"
+                        press="onReservedBooksBtn"
                     />
                     <Button
+                        id="idActiveLoansBtn"
+                        text="Actve Loans"
+                        type="Attention"
+                        press="onActiveLoansBtnPress"
+                    />
+                    <!-- <Button
                         id="idBtnDecline"
                         icon="sap-icon://decline"
                         type="Transparent"
-                    />
+                    /> -->
                     <Button
                         id="idBtnBack"
                         icon="sap-icon://undo"
                         type="Emphasized"
                         press="onBackBtnPress"
+                    />
+                    <Button
+                        id="idBtnFullScreen"
+                        icon="sap-icon://full-screen"
+                        type="Transparent"
                     />
                 </f:navigationActions>
             </f:DynamicPageTitle>
@@ -152,37 +164,6 @@
                             press="onUsersPress"
                         />
                     </VBox>
-                    <VBox
-                        id="idActiveLoansButton"
-                        class="sapUiSmallMarginEnd"
-                    >
-                        <Label
-                            id="idActiveLoansButtonLabel"
-                            text=""
-                        />
-                        <Button
-                            id="idActiveLoansrButtonValue"
-                            text="Actve Loans"
-                            type="Emphasized"
-                            press="onActiveLoansPress"
-                        />
-                    </VBox>
-
-                    <VBox
-                        id="idReservedBooks"
-                        class="sapUiSmallMarginEnd"
-                    >
-                        <Label
-                            id="idReservedBooksLabel"
-                            text=""
-                        />
-                        <Button
-                            id="idReservedButtonValue"
-                            text="Reserved Books"
-                            type="Emphasized"
-                            press="onReservedBooksBtn"
-                        />
-                    </VBox>
                     <ToolbarSpacer id="idToolBarSpacer" />
                 </HBox>
             </f:DynamicPageHeader>
@@ -204,6 +185,12 @@
                             text="Books:{/Books/$count}"
                         />
                         <ToolbarSpacer id="idTableHeaderSpacer" />
+                        <Button
+                            id="idIssueBooksButton"
+                            text="Issue Book"
+                            type="Accept"
+                            press="onIssueBooksBtnPress"
+                        />
                         <Button
                             id="idBtnCreate"
                             text="Add"

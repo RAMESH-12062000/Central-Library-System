@@ -40,7 +40,10 @@
                             src=""
                             class="sapUiTinyMarginEnd"
                         />
-                        <m:Label id="idLableUserName" text="User Name"></m:Label>
+                        <m:Label
+                            id="idLableUserName"
+                            text="Name:"
+                        />
                         <m:Title
                             id="idUserName"
                             text="{Name}"
@@ -52,11 +55,9 @@
                 <expandedContent>
                     <m:Text
                         id="idWelcomeTag"
-                        text="Welcomes You"
+                        text="Welcomes You {Name}"
                     />
                 </expandedContent>
-
-                <actions />
             </ObjectPageDynamicHeaderTitle>
         </headerTitle>
 
@@ -78,15 +79,19 @@
                     class="sapUiSmallMarginBeginEnd"
                 >
                     <m:Text
-                        id="idTextUserName"
+                        id="idSingleUserName"
                         text="{Name}"
                     />
-                    <m:Link
-                        id="idLink1"
+                    <m:Text
+                        id="idTextUserName"
+                        text="{Username}"
+                    />
+                    <m:Text
+                        id="idPhonenumber"
                         text="{phonenumber}"
                     />
-                    <m:Link
-                        id="idLink2"
+                    <m:Text
+                        id="idEmail"
                         text="{Email}"
                     />
                 </layout:VerticalLayout>
@@ -111,7 +116,7 @@
                 >
                     <m:Label
                         id="idLabelForUserText"
-                        text="Hello! {Name} greetings from Central Library System.."
+                        text="Hello! {users/Name} greetings from Central Library System.."
                     />
                 </layout:VerticalLayout>
             </m:FlexBox>
@@ -146,14 +151,6 @@
                                         <m:ToolbarSpacer
                                             id="idTableHeaderSpacerUserLoans"
                                         />
-                                        <!-- <m:Button
-                                            id="idBtnNewBook"
-                                            text="New Book"
-                                            icon="sap-icon://add"
-                                            tooltip="Borrow New Book"
-                                            type="Success"
-                                            press="onBorrowNewBookPress"
-                                        /> -->
                                         <m:Button
                                             id="idBtnReturn"
                                             press="onReturnBookPress"
@@ -218,45 +215,30 @@
                             </m:Table>
                         </blocks>
                     </ObjectPageSubSection>
-                </subSections>
-            </ObjectPageSection>
 
-            <ObjectPageSection
-                titleUppercase="false"
-                id="idTotalBooksSection"
-                title="Total Books"
-            >
-                <subSections>
                     <ObjectPageSubSection
                         id="idTotalBooksSubSection"
-                        title="Total Books"
+                        title="Total Books:"
                         titleUppercase="false"
                     >
                         <blocks>
                             <m:Table
                                 id="idBooksTable"
-                                mode="MultiSelect"
                                 alternateRowColors="true"
-                                items="{path:'/Books',parameters:{
-                    $count:true,
-                    $$updateGroupId:'booksGroup'    
-                     }
-                }"
+                                items="{path:'/Books',parameters:{ $count:true, $$updateGroupId:'booksGroup'}}"
                             >
                                 <m:headerToolbar>
                                     <m:OverflowToolbar id="idBooksTableHeader">
-                                        <!-- text="Availble Stock :{/Books/$count} Books" -->
-
                                         <m:Title
                                             id="idTableHeaderTitle"
-                                            text="Total Books From the Library"
+                                            text="Total Books From the Library:-"
                                         />
                                         <m:ToolbarSpacer
                                             id="idTableHeaderSpacer"
                                         />
                                         <m:Button
                                             id="idBtnEdit"
-                                            text="New Book"
+                                            text="Borrow Book"
                                             icon="sap-icon://add"
                                             type="Emphasized"
                                             press="onBorrowNewBookPress"
@@ -321,6 +303,15 @@
                     </ObjectPageSubSection>
                 </subSections>
             </ObjectPageSection>
+            <!-- <ObjectPageSection
+                titleUppercase="false"
+                id="idTotalBooksSection"
+                title="Total Books"
+            >
+                <subSections>
+                    
+                </subSections>
+            </ObjectPageSection> -->
         </sections>
     </ObjectPageLayout>
 </mvc:View>
