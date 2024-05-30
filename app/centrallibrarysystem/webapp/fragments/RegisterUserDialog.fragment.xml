@@ -47,44 +47,39 @@
                 singleContainerFullSize="false"
             >
                 <Label
-                    id="idLablefName"
-                    text="First Name"
+                    id="idLableName"
+                    text="Name"
                 />
-                <Input id="idfNameInput" />
-
-                <Label
-                    id="idLablelName"
-                    text="Last Name"
-                />
-                <Input id="idlNameInput" />
-
+                <Input id="idNewUserNameInput" value="{localModel2>/Name}" />
                 <Label
                     id="idLableEmail"
                     text="Email"
                 />
-                <Input id="idEmailInput" />
+                <Input id="idEmailInput" value="{localModel2>/Email}" />
                 <Label
+                    id="idLableUserName"
+                    text="User Name"
+                />
+                <Input id="idUserNameInput" value="{localModel2>/Username}" />
+                <!-- <Label
                     id="idLablePhoneNumber"
                     text="Phone Number"
                 />
-                <Input id="idPhoneNumberInput" />
+                <Input id="idPhoneNumberInput" value="{localModel>/phonenumber}" /> -->
 
                 <Label
                     id="idLableCreatePassword"
                     text="Create Password"
                 />
                 <Input
-                    id="idCreatePasswordInput"
-                    type="Number"
-                />
-
+                    id="idCreatePasswordInput" value="{localModel2>/Password}"/>
                 <Label
-                    id="idLableReEnterPassword"
-                    text="Re-Enter Password"
+                    id="idLableUserType"
+                    text="User Type"
                 />
                 <Input
-                    id="idReenterPasswordInput"
-                    type="Number"
+                    id="idInputuserType"
+                    value="{localModel2>/userType}"
                 />
             </form:SimpleForm>
         </content>

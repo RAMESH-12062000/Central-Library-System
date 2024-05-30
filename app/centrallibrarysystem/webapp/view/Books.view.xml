@@ -15,7 +15,7 @@
                 <f:heading>
                     <Title
                         id="idBooksPageHeadingTitle"
-                        text="{i18n>title}"
+                        text="Admin Page:"
                     />
                 </f:heading>
 
@@ -58,7 +58,7 @@
                     <Button
                         id="idBtnBack"
                         icon="sap-icon://undo"
-                        type="Emphasized"
+                        type="Transparent"
                         press="onBackBtnPress"
                     />
                     <Button
@@ -90,6 +90,7 @@
                         <MultiInput
                             id="idTitleFilterValue"
                             value=""
+                            placeholder="Search Title"
                         />
                     </VBox>
 
@@ -104,6 +105,7 @@
                         <MultiInput
                             id="idAuthorFilterValue"
                             value=""
+                            placeholder="Search Author"
                         />
                     </VBox>
                     <VBox
@@ -117,6 +119,7 @@
                         <MultiInput
                             id="idISBNFilterValue"
                             value=""
+                            placeholder="Search ISBN"
                         />
                     </VBox>
                     <VBox
@@ -129,8 +132,8 @@
                         />
                         <Button
                             id="idGoButtonValue"
-                            text="Go"
-                            type="Emphasized"
+                            icon="sap-icon://search"
+                            type="Neutral"
                             press="onGoPress"
                         />
                     </VBox>
@@ -145,7 +148,7 @@
                         <Button
                             id="idClearFilterButtonValue"
                             text="Clear Filter"
-                            type="Emphasized"
+                            type="Ghost"
                             press="onClearFilterPress"
                         />
                     </VBox>
@@ -160,7 +163,7 @@
                         <Button
                             id="idUsersButtonValue"
                             text="Users"
-                            type="Emphasized"
+                            type="Reject"
                             press="onUsersPress"
                         />
                     </VBox>
@@ -189,23 +192,28 @@
                             id="idIssueBooksButton"
                             text="Issue Book"
                             type="Accept"
+                            tooltip="IssueBook"
                             press="onIssueBooksBtnPress"
                         />
                         <Button
                             id="idBtnCreate"
-                            text="Add"
                             icon="sap-icon://add"
                             tooltip="Add a Book"
-                            type="Success"
                             press="onCreateBtnPress"
+                        />
+                        <Button
+                            id="idBtnEdit"
+                            icon="sap-icon://edit"
+                            tooltip="Edit Books"
+                            type="Neutral"
+                            press="onEditBooksBtnPress"
                         />
                         <Button
                             id="idBtnDelete"
                             press="onCheckDelete"
                             icon="sap-icon://delete"
-                            tooltip="Delete Record"
-                            text="Delete"
-                            type="Negative"
+                            tooltip="Delete Book"
+                            type="Transparent"
                         />
                     </OverflowToolbar>
                 </headerToolbar>
@@ -250,7 +258,6 @@
                 <items>
                     <ColumnListItem
                         id="idBooksTableColListItem"
-                        type="Navigation"
                     >
                         <cells>
                             <Text

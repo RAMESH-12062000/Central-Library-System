@@ -79,13 +79,13 @@
                 width="100%"
                 class="sapUiSmallMarginTop"
             >
-                <Button
+                <!-- <Button
                     id="idBtnReserve"
                     text="Reserve"
                     type="Accept"
                     press=".onReservePress"
                     class="Button-spacing2"
-                />
+                /> -->
                 <Button
                     id="idRejectBtn"
                     text="Decline"

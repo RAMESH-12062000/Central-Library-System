@@ -4,7 +4,7 @@ sap.ui.define([
     "sap/ui/model/odata/v2/ODataModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/m/MessageToast"
+    "sap/m/MessageToast",
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -16,6 +16,18 @@ sap.ui.define([
             onInit: function () {
                 var oModel = new ODataModel("/v2/LibrarySystemSRV/");
                 this.getView().setModel(oModel);
+                
+                //this is model for creating the new User...
+                const oLocalModel1 = new  sap.ui.model.json.JSONModel({
+                    Name : "",
+                    Email:"",
+                    Username: "",
+                    //phonenumber:"",
+                    Password: "",
+                    userType: "member",
+                   
+                  });
+                  this.getView().setModel(oLocalModel1, "localModel2");
 
             },
 
@@ -74,21 +86,40 @@ sap.ui.define([
                 }
             },
             //This is for REGISTER Open...
-            onRegisterUserPress: async function () {
+            onSignUpUserPress: async function () {
                 if (!this.oRegisterUserPress) {
                     this.oRegisterUserPress = await this.loadFragment("RegisterUserDialog")
                 }
                 this.oRegisterUserPress.open()
             },
+
+            //for Creating New User...
+            onSubmitPress: async function () {
+                debugger
+                //After Creating model need to call that model and in the ui page assign that model to valueInput...
+                const oPayload = this.getView().getModel("localModel2").getProperty("/"),
+                    oModel = this.getView().getModel("ModelV2");
+                try {
+                    await this.createData(oModel, oPayload, "/users");
+                    this.oRegisterUserPress.close();
+                } catch (error) {
+                    this.oRegisterUserPress.close();
+                    sap.m.MessageBox.error("Some technical Issue...");
+                }
+            },
+
+
+
+
+
+
+
             //This is for REGISTER Close...
             onCloseRegisterSubmitDialog: function () {
                 if (this.oRegisterUserPress.isOpen()) {
                     this.oRegisterUserPress.close()
                 }
             },
-        
-            
-            
-
+    
         });
     });

@@ -11,17 +11,9 @@ sap.ui.define(
 
       },
 
-    //   onAllBookListPress: function () {
-    //     const oRouter = this.getOwnerComponent().getRouter();
-    //     oRouter.navTo("RouteAdmin")
-    //   },
-
-      //if yo press on USERS button from booksview then it will routed to UsersPage
-      
-
       onBackBtnPress: function () {
         const oRouter = this.getOwnerComponent().getRouter();
-        oRouter.navTo("RouteUsers")
+        oRouter.navTo("RouteBooks")
       }
 
     });

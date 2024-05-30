@@ -54,3 +54,9 @@
     margin-bottom: 2rem;
     color: rgba(184, 197, 4, 0.938);
 }
+
+.homepagebtn{
+    justify-content: end;
+    margin-top: 10px;
+    margin-right: 10px;
+}

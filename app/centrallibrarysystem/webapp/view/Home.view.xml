@@ -6,8 +6,33 @@
     xmlns="sap.m"
 >
     <App id="idApp">
-        <Page id="idPage" showHeader="false" class="background">
-            <VBox id="idVBox"
+        <Page
+            id="idPage"
+            showHeader="false"
+            class="background"
+        >
+            <HBox
+                id="idHBox"
+                class="homepagebtn"
+            >
+                <Button
+                    id="idBtnAdminLogin"
+                    text="Login"
+                    type="Emphasized"
+                    press="onLoginDialogPress"
+                    class="button-spacing"
+                />
+                <Button
+                    id="idBtnSignUp"
+                    text="SignUp"
+                    icon="sap-icon://add-employee"
+                    tooltip="Add New User"
+                    type="Emphasized"
+                    press="onSignUpUserPress"
+                />
+            </HBox>
+            <VBox
+                id="idVBox"
                 justifyContent="Center"
                 alignItems="Center"
                 width="100%"
@@ -19,32 +44,16 @@
                     level="H1"
                     class="title"
                 />
-                <Label id="idLable" text="ARTIHCUS GLOBAL LIBRARY..." class="subtitle"/>
-                <Text id="idText" text="#NOTHING IS PLEASANTER THAN EXPLORING A LIBRARY..!!  -Walter Savage" class="customParagraph" />
-                <HBox id="idHBox">
-                    <Button
-                        id="idBtnAdminLogin"
-                        text="Login"
-                        type="Emphasized"
-                        press="onLoginDialogPress"
-                        class="button-spacing"
-                    />
-                    <!-- <Button
-                        id="idBtnuserLogin"
-                        text="User Login"
-                        type="Emphasized"
-                        press="onUserLoginPress"
-                        class="button-spacing"
-                    /> -->
-                    <Button
-                            id="idBtnRegister"
-                            text="Register"
-                            icon="sap-icon://add-employee"
-                            tooltip="Add New User"
-                            type="Emphasized"
-                            press="onRegisterUserPress"
-                        />
-                </HBox>
+                <Label
+                    id="idLable"
+                    text="ARTIHCUS GLOBAL LIBRARY..."
+                    class="subtitle"
+                />
+                <Text
+                    id="idText"
+                    text="#NOTHING IS PLEASANTER THAN EXPLORING A LIBRARY..!!  -Walter Savage"
+                    class="customParagraph"
+                />
             </VBox>
         </Page>
     </App>

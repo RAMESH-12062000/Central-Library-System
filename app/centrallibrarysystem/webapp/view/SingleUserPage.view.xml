@@ -24,7 +24,7 @@
                 <expandedHeading>
                     <m:Title
                         id="IdLibraryTitle"
-                        text="Central Library System"
+                        text="User Page:"
                         wrapping="true"
                     />
                 </expandedHeading>
@@ -226,6 +226,7 @@
                                 id="idBooksTable"
                                 alternateRowColors="true"
                                 items="{path:'/Books',parameters:{ $count:true, $$updateGroupId:'booksGroup'}}"
+                                mode="MultiSelect"
                             >
                                 <m:headerToolbar>
                                     <m:OverflowToolbar id="idBooksTableHeader">
@@ -238,11 +239,11 @@
                                         />
                                         <m:Button
                                             id="idBtnEdit"
-                                            text="Borrow Book"
+                                            text="Reserve Book"
                                             icon="sap-icon://add"
                                             type="Emphasized"
-                                            press="onBorrowNewBookPress"
-                                            tooltip="Click to Borrow"
+                                            press="onReserveBookPress"
+                                            tooltip="Click to Reserve"
                                         />
                                     </m:OverflowToolbar>
                                 </m:headerToolbar>

@@ -130,6 +130,49 @@ sap.ui.define(
             },
 
 
+            //For Opens the UpdateBooksDialog ...
+            onEditBooksBtnPress: async function () {
+                if (!this.oUpdateBooksDialog) {
+                    this.oUpdateBooksDialog = await this.loadFragment("UpdateBooksDialog")
+                }
+                this.oUpdateBooksDialog.open()
+            },
+            //After Update Opens then edit that books and save it...
+            onUpdateBooksPress: async function () {
+                if (!this.oUpdateBooksDialog) {
+                    this.oUpdateBooksDialog = await this.loadFragment("UpdateBooksDialog")
+                }
+                var oSelected = this.byId("idBooksTable").getSelectedItem();
+                if (oSelected) {
+                    var oAuthorName = oSelected.getBindingContext().getObject().Author
+                    var oBookname = oSelected.getBindingContext().getObject().Title
+                    var oStock = oSelected.getBindingContext().getObject().Quantity
+                    var oISBN = oSelected.getBindingContext().getObject().ISBN
+
+                    const newBookModel = new JSONModel({
+                        Author: oAuthorName,
+                        Title: oBookname,
+                        Quantity: oStock,
+                        ISBN: oISBN,
+                    });
+                    this.getView().setModel(newBookModel, "newBookModel");
+                    oUpdateBooksDialog.open()
+                } else {
+                    MessageToast.show("Select an Item to Edit")
+                }
+
+            },
+
+
+
+            //for Closing Update Books...
+            onCloseUpdateBooksDialog: function () {
+                if (this.oUpdateBooksDialog.isOpen()) {
+                    this.oUpdateBooksDialog.close()
+                }
+            },
+
+
             //If you press on the ActivLoans button it will prompted a popup withdetails of loans..
             onActiveLoansBtnPress: async function () {
                 if (!this.oActiveLoansDialog) {
@@ -174,12 +217,6 @@ sap.ui.define(
                 });
                 this.oNewLoanDailog.close()
             },
-
-
-
-
-
-
 
             //Button Reserved Books popup... 
             onReservedBooksBtn: async function () {

@@ -74,7 +74,7 @@
                             />
                             <Button
                                 id="idNotifyButton"
-                                icon="sap-icon://delete"
+                                icon="sap-icon://sent"
                                 tooltip="Notification Sent"
                                 text="Sent"
                                 type="Success"

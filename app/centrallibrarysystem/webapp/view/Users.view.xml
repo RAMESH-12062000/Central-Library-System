@@ -44,6 +44,12 @@
                         type="Transparent"
                     />
                     <Button
+                        id="idBtnBack"
+                        icon="sap-icon://undo"
+                        type="Transparent"
+                        press="onBackBtnPress"
+                    />
+                    <Button
                         id="idBtnDecline"
                         icon="sap-icon://decline"
                         type="Transparent"
@@ -79,13 +85,6 @@
                             text="USERS:"
                         />
                         <ToolbarSpacer id="idTableHeaderSpacer" />
-                        <!-- <Button
-                            id="idBtnList"
-                            text="AllBookList"
-                            icon="sap-icon://list"
-                            type="Emphasized"
-                            press="onAllBookListPress"
-                        /> -->
                     </OverflowToolbar>
                 </headerToolbar>
                 <columns>
