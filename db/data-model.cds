@@ -19,7 +19,7 @@ entity users {
   key ID          : UUID;
       Name        : String;
       Email       : String;
-      phonenumber : Integer;
+      phonenumber : String;
       Username    : String;
       Password    : String;
       userType    : String;

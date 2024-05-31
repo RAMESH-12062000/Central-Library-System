@@ -38,6 +38,7 @@ sap.ui.define(
       deleteData: function (oModel, sPath, ID) {
         return new Promise((resolve, reject) => {
           oModel.remove(`${sPath}/${ID}`, {
+            refreshAfterChange: true,
             success: function (oSuccessData) {
               resolve(oSuccessData);
             },

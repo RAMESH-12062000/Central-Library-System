@@ -63,9 +63,9 @@ sap.ui.define([
                             MessageToast.show("Login successful!");
 
                             if (oUser.userType === "admin") {
-                                this.getOwnerComponent().getRouter().navTo("RouteBooks", { id: userid });
+                                this.getOwnerComponent().getRouter().navTo("RouteBooks", { ID: userid });
                             } else if (oUser.userType === "member") {
-                                this.getOwnerComponent().getRouter().navTo("RouteSingleUserPage", { id: userid })
+                                this.getOwnerComponent().getRouter().navTo("RouteSingleUserPage", { ID: userid })
                             }
 
                             this.onCloseLoginDialog();

@@ -61,3 +61,15 @@ kill $(lsof -t -i:"port number")
 else if (oUser === "User" && oPwd === "user@123") {
                     this.getOwnerComponent().getRouter().navTo("RouteSingleUserPage")
                 }
+
+onDeclinePress: function () {
+        const oRouter = this.getOwnerComponent().getRouter();
+        oRouter.navTo("RouteSingleUserPage")
+      },
+
+
+
+
+                    
+                        
+                        

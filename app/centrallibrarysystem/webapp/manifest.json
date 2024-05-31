@@ -144,22 +144,15 @@
         },
         {
           "name": "RouteSingleUserPage",
-          "pattern": "SingleUserPage",
+          "pattern": "users/{ID}",
           "target": [
             "TargetSingleUserPage"
           ]
         },
         {
-          "name": "RouteSingleBookPage",
-          "pattern": "SingleBookPage/{ISBN}",
-          "target": [
-            "TargetSingleBookPage"
-          ]
-        },
-        {
           "name": "RouteUsers",
           "pattern": "Users",
-          "target":[
+          "target": [
             "TargetUsers"
           ]
         }
@@ -172,33 +165,26 @@
           "viewId": "Home",
           "viewName": "Home"
         },
-        "TargetBooks":{
+        "TargetBooks": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
           "viewId": "Books",
           "viewName": "Books"
         },
-        "TargetUsers":{
+        "TargetUsers": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
           "viewId": "Users",
           "viewName": "Users"
         },
-        "TargetSingleUserPage":{
+        "TargetSingleUserPage": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
           "viewId": "SingleUserPage",
           "viewName": "SingleUserPage"
-        },
-        "TargetSingleBookPage":{
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "SingleBookPage",
-          "viewName": "SingleBookPage"
         }
       }
     },

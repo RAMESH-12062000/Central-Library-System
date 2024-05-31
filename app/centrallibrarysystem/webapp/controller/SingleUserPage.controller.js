@@ -1,8 +1,10 @@
 sap.ui.define(
   [
-    "sap/ui/core/mvc/Controller"
+    "./BaseController",
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/odata/v2/ODataModel"
   ],
-  function (BaseController) {
+  function (BaseController, ODataModel) {
     "use strict";
 
     return BaseController.extend("com.app.centrallibrarysystem.controller.SingleUserPage", {
@@ -11,29 +13,35 @@ sap.ui.define(
         oRouter.attachRoutePatternMatched(this.onUserDetailsLoad, this);
 
       },
-      // onUserDetailsLoad: function (oEvent) {
-      //   debugger
-      //   const { ID } = oEvent.getParameter("arguments");
-      //   this.id = ID;
-      //   // const sRouterName = oEvent.getParameter("name");
-      //   const oObjectPage = this.getView().byId("ObjectPageLayout");
+      onUserDetailsLoad: function (oEvent) {
+        const { ID } = oEvent.getParameter("arguments");
+        this.id = ID;
+        // const sRouterName = oEvent.getParameter("name");
+        const oObjectPage = this.getView().byId("ObjectPageLayout");
 
-      //   oObjectPage.bindElement(`/users(${ID})`);
-      // },
+        oObjectPage.bindElement(`/users(${ID})`);
 
-
-
-
-
-
-
-
-      onPressISBN: function (oEvent) {
-        var oSource = oEvent.getSource();
-        var sISBN = oSource.getText();
-        var oRouter = this.getOwnerComponent().getRouter();
-        oRouter.navTo("RouteSingleBookPage", { ISBN: sISBN });
       },
+
+
+      onPressISBN: async function (oEvent) {
+        const sISBN = oEvent.getSource().getText();
+        const oModel = this.getView().getModel();
+        const sPath = `/Books('${sISBN}')`;
+        if (!this.oBookPageDialog) {
+          this.oBookPageDialog = await this.loadFragment("BookPageDialog")
+        }
+        this.oBookPageDialog.bindElement(sPath);
+        this.oBookPageDialog.open()
+      },
+
+      onDeclinePress: function () {
+        if (this.oBookPageDialog.isOpen()) {
+          this.oBookPageDialog.close()
+        }
+      },
+
+
     });
   }
 );

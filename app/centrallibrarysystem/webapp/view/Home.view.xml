@@ -18,9 +18,8 @@
                 <Button
                     id="idBtnAdminLogin"
                     text="Login"
-                    type="Emphasized"
+                    type="Neutral"
                     press="onLoginDialogPress"
-                    class="button-spacing"
                 />
                 <Button
                     id="idBtnSignUp"
