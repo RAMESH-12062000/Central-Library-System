@@ -74,6 +74,15 @@
                 />
 
                 <Label
+                    id="idLableUpdatelanguage"
+                    text="Language"
+                />
+                <Input
+                    id="idUpdateLanguageInput"
+                    value="{newBookModel>/Language}"
+                />
+
+                <Label
                     id="idLableUpdateQuantity"
                     text="Quantity"
                 />

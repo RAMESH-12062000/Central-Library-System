@@ -38,22 +38,22 @@
                     />
                 </f:snappedTitleOnMobile>
                 <f:navigationActions>
-                    <Button
+                    <!-- <Button
                         id="idBtnFullScreen"
                         icon="sap-icon://full-screen"
                         type="Transparent"
-                    />
+                    /> -->
                     <Button
                         id="idBtnBack"
                         icon="sap-icon://undo"
                         type="Transparent"
                         press="onBackBtnPress"
                     />
-                    <Button
+                    <!-- <Button
                         id="idBtnDecline"
                         icon="sap-icon://decline"
                         type="Transparent"
-                    />
+                    /> -->
                 </f:navigationActions>
             </f:DynamicPageTitle>
         </f:title>

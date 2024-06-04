@@ -57,11 +57,17 @@
                     </Column>
                     <Column id="idcol4">
                         <Text
-                            id="idDueDate"
-                            text="Due Date"
+                            id="idIssueDate"
+                            text="Issue Date"
                         />
                     </Column>
                     <Column id="idcol5">
+                        <Text
+                            id="idReturnDate"
+                            text="Return Date"
+                        />
+                    </Column>
+                    <Column id="idcol6">
                         <Text
                             id="idClearLoansBtn"
                             text="Clear Loans"
@@ -73,18 +79,22 @@
                         <cells>
                             <Text
                                 id="idUserIdValue"
-                                text="{UserID}"
+                                text="{user_ID}"
                             />
                             <Text
                                 id="idNameValue"
-                                text="{users/Name}"
+                                text="{user/Name}"
                             />
                             <Text
                                 id="idBookNameValue"
                                 text="{book/Title}"
                             />
                             <Text
-                                id="idDueDateValue"
+                                id="idIssueDateValue"
+                                text="{IssueDate}"
+                            />
+                            <Text
+                                id="idReturnDateValue"
                                 text="{ReturnDate}"
                             />
                             <Button

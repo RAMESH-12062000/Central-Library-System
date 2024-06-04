@@ -61,11 +61,11 @@
                     text="User Name"
                 />
                 <Input id="idUserNameInput" value="{localModel2>/Username}" />
-                <!-- <Label
+                <Label
                     id="idLablePhoneNumber"
                     text="Phone Number"
                 />
-                <Input id="idPhoneNumberInput" value="{localModel>/phonenumber}" /> -->
+                <Input id="idPhoneNumberInput" value="{localModel2>/phonenumber}" />
 
                 <Label
                     id="idLableCreatePassword"

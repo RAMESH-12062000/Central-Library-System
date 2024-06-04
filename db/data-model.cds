@@ -4,40 +4,50 @@ using {cuid} from '@sap/cds/common';
 
 
 entity Books : cuid {
-  Title        : String;
-  Author       : String;
-  ISBN         : String;
-  Quantity     : Integer;
-  Availability : String;
-  Language     : String;
-  users        : Association to users;
-  BookLoans: Composition of many BookLoans on BookLoans.book = $self;
-  Books:Composition of many users on Books.Name;
+      Title        : String;
+      Author       : String;
+      ISBN         : String;
+      Quantity     : Integer;
+      Availability : String;
+      Language     : String;
+      users        : Association to users;
+      BookLoan_ID  : Composition of many BookLoans
+                           on BookLoan_ID.book = $self;
+//   Book        : Composition of many users
+//                    on Book.Name;
 }
 
 entity users {
-  key ID          : UUID;
-      Name        : String;
-      Email       : String;
-      phonenumber : String;
-      Username    : String;
-      Password    : String;
-      userType    : String;
-      BookLoans:Association to one BookLoans;
-      users:Association to one Books;
+      key ID          : UUID;
+          Name        : String;
+          Email       : String;
+          phonenumber : String;
+          Username    : String;
+          Password    : String;
+          userType    : String;
+          BookLoans   : Association to many BookLoans
+                              on BookLoans.user = $self;
+          IssueingBooks:Association to many IssueingBooks on IssueingBooks.user12=$self;
+//users:Association to one Books;
 
 }
 
-entity BookLoans {
-  key ID         : UUID;
-      BookID     : UUID;
-      UserID     : UUID;
+entity BookLoans : cuid {
       IssueDate  : Date;
       ReturnDate : Date;
-      book:Association to one Books;
-      users:Composition of many users on users.BookLoans=$self;
+      book       : Association to one Books;
+      user       : Association to one users;
+
+// BookID     : UUID;
+// UserID     : UUID;
 }
 
+entity IssueingBooks : cuid {
+      Book12:Association to Books;
+      user12: Association to users;
+      reservedDate:Date;
+      
+}
 
 
 // entity ReservedBooks : cuid {

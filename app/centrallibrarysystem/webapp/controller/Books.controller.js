@@ -6,10 +6,11 @@ sap.ui.define(
         "sap/ui/model/FilterOperator",
         "sap/m/Token",
         "sap/m/MessageBox",
-        "sap/ui/model/json/JSONModel"
+        "sap/ui/model/json/JSONModel",
+        "sap/m/MessageToast"
         ,
     ],
-    function (Controller, Filter, FilterOperator, Token, MessageBox, JSONModel) {
+    function (Controller, Filter, FilterOperator, Token, MessageBox, JSONModel, MessageToast) {
         "use strict";
 
         return Controller.extend("com.app.centrallibrarysystem.controller.Books", {
@@ -118,7 +119,7 @@ sap.ui.define(
                 if (oSelected) {
                     var oBookName = oSelected.getBindingContext().getObject().title;
                     oSelected.getBindingContext().delete("$auto").then(function () {
-                        MessageToast.show(oBookName + " SuccessFully Deleted");
+                        MessageToast.show("Selected Book SuccessFully Deleted..!");
                     },
                         function (oError) {
                             MessageToast.show("Deletion Error: ", oError);
@@ -132,35 +133,48 @@ sap.ui.define(
 
             //For Opens the UpdateBooksDialog ...
             onEditBooksBtnPress: async function () {
-                if (!this.oUpdateBooksDialog) {
-                    this.oUpdateBooksDialog = await this.loadFragment("UpdateBooksDialog")
+                
+                var oSelected = this.byId("idBooksTable").getSelectedItem();
+                if (oSelected) {
+                    debugger
+                    var oAuthorName = oSelected.getBindingContext().getObject().Author
+                    var oBookname = oSelected.getBindingContext().getObject().Title
+                    var oQuantity = oSelected.getBindingContext().getObject().Quantity
+                    var oLanguage = oSelected.getBindingContext().getObject().Language
+                    var oISBN = oSelected.getBindingContext().getObject().ISBN
+
+                    const oNewBookModel = new JSONModel({
+                        Author: oAuthorName,
+                        Title: oBookname,
+                        ISBN: oISBN,
+                        Language: oLanguage,
+                        Quantity: oQuantity,
+
+                    });
+                    this.getView().setModel(oNewBookModel, "newBookModel");
+                    if (!this.oUpdateBooksDialog) {
+                        
+                        this.oUpdateBooksDialog = await this.loadFragment("UpdateBooksDialog"); // Load your fragment asynchronously
+                    }
+                    this.oUpdateBooksDialog.open();
+                    MessageToast.show("Please select a Book to Edit..!");
                 }
-                this.oUpdateBooksDialog.open()
             },
             //After Update Opens then edit that books and save it...
             onUpdateBooksPress: async function () {
-                if (!this.oUpdateBooksDialog) {
-                    this.oUpdateBooksDialog = await this.loadFragment("UpdateBooksDialog")
-                }
-                var oSelected = this.byId("idBooksTable").getSelectedItem();
-                if (oSelected) {
-                    var oAuthorName = oSelected.getBindingContext().getObject().Author
-                    var oBookname = oSelected.getBindingContext().getObject().Title
-                    var oStock = oSelected.getBindingContext().getObject().Quantity
-                    var oISBN = oSelected.getBindingContext().getObject().ISBN
+                debugger
+                const oPayload = this.getView().getModel("newBookModel").getProperty("/");
+                const sPath = "/Books";
+                const oModel = this.getView().getModel("ModelV2");
 
-                    const newBookModel = new JSONModel({
-                        Author: oAuthorName,
-                        Title: oBookname,
-                        Quantity: oStock,
-                        ISBN: oISBN,
-                    });
-                    this.getView().setModel(newBookModel, "newBookModel");
-                    oUpdateBooksDialog.open()
-                } else {
-                    MessageToast.show("Select an Item to Edit")
+                try {
+                    await this.updateData(oModel, oPayload, sPath);
+                    this.getView().byId("idBooksTable").getBinding("items").refresh();
+                    this.oUpdateBooksDialog.close();
+                    MessageToast.show("Book updated successfully");
+                } catch (error) {
+                    MessageBox.error("Failed to update the book");
                 }
-
             },
 
 
@@ -195,6 +209,73 @@ sap.ui.define(
                 this.onIssueBooksFragment.open();
             },
 
+            onAcceptButtonIssueBookPress: async function (oEvent) {
+                if(this.byId("idIssueBooksTable").getSelectedItems().length>1){
+                    MessageToast.show("Please Select only one Book");
+                    return
+                }
+                var oSelectedBook=this.byId("idIssueBooksTable").getSelectedItem().getBindingContext().getObject()
+                console.log(oSelectedBook)
+                debugger
+                const userModel = new sap.ui.model.json.JSONModel({
+                    user_ID: oSelectedBook.user12.ID,
+                    book_ID: oSelectedBook.Book12.ID,
+                    IssueDate: new Date(),
+                    ReturnDate:new Date()
+                });
+                this.getView().setModel(userModel, "userModel");
+             
+                const oPayload = this.getView().getModel("userModel").getProperty("/"),
+                    oModel = this.getView().getModel("ModelV2");
+             
+                try {
+                    await this.createData(oModel, oPayload, "/BookLoans");
+                    sap.m.MessageBox.success("Book Accepted");
+                } catch (error) {
+                    sap.m.MessageBox.error("Some technical Issue");
+                }
+            },
+
+            // onIssueBookPress: function () {
+            //     debugger
+
+            //     const oLocalModel345 = new JSONModel({
+            //         Title: "",
+            //         Author: "",
+            //         ISBN: "",
+            //         Quantity: "",
+            //         user_ID: "",
+            //         book_ID: ""
+            //     });
+            //     //var oContext = this.getView().byId("idActiveLoansTable").getBinding("items")
+            //     const oLocalModel = this.getView().getModel("localModelIssue");
+            //     const oIssueData = {
+            //         BookID: oLocalModel345.getProperty("/book_ID"),
+            //         UserID: oLocalModel345.getProperty("/user_ID"),
+            //         IssueDate: new Date(),
+            //         ReturnDate: null // Set the appropriate return date or null
+            //     };
+
+            //     const oModel = this.getView().getModel("ModelV2");
+            //     oModel.create("/BookLoans", oIssueData, {
+            //         success: () => {
+            //             MessageToast.show("Book issued successfully");
+            //             // Refresh the view to reflect the issued book in active loans and borrowed books
+            //             this.onBooksListLoad();
+            //         },
+            //         error: () => {
+            //             MessageToast.show("Error issuing book");
+            //         }
+            //     });
+            //     this.onIssueBooksFragment.close();
+            // },
+
+
+
+
+
+
+
             //For Closing Issue Books...
             onCloseIssueBookPress: function () {
                 if (this.onIssueBooksFragment.isOpen()) {
@@ -203,34 +284,19 @@ sap.ui.define(
             },
 
 
-            //For Issueing the Book...
-            onIssueBookPress: function () {
-                var oContext = this.getView().byId("idActiveLoansTable").getBinding("items")
-                var oIssueBook = this.getView().getModel("newLoanModel").getData();
-                oContext.create(oIssueBook, {
-                    success: function () {
-                        MessageToast.show("Book created successfully");
-                    },
-                    error: function () {
-                        MessageToast.show("Error creating book");
-                    }
-                });
-                this.oNewLoanDailog.close()
-            },
-
             //Button Reserved Books popup... 
-            onReservedBooksBtn: async function () {
-                if (!this.onReservedBooks123) {
-                    this.onReservedBooks123 = await this.loadFragment("ReservedBooksDialog")
-                }
-                this.onReservedBooks123.open();
-            },
+            // onReservedBooksBtn: async function () {
+            //     if (!this.onReservedBooks123) {
+            //         this.onReservedBooks123 = await this.loadFragment("ReservedBooksDialog")
+            //     }
+            //     this.onReservedBooks123.open();
+            // },
             //For closing ReservedBooks...
-            onCloseReservedBooks: function () {
-                if (this.onReservedBooks123.isOpen()) {
-                    this.onReservedBooks123.close()
-                }
-            },
+            // onCloseReservedBooks: function () {
+            //     if (this.onReservedBooks123.isOpen()) {
+            //         this.onReservedBooks123.close()
+            //     }
+            // },
 
             //if you click on UNDO button it will redirect to MAINPAGE...
             onBackBtnPress: function () {

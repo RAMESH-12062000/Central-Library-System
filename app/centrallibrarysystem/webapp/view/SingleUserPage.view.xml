@@ -71,6 +71,7 @@
                                 id="idUserActiveLoanTable"
                                 mode="MultiSelect"
                                 alternateRowColors="true"
+                                items="{/BookLoans}"
                                 
                             >
                                 <m:headerToolbar>
@@ -101,10 +102,10 @@
                                 <m:items>
                                     <m:ColumnListItem id="idColListItems">
                                         <m:cells>
-                                            <m:Text id="idTextTitle" text="{}" />
-                                            <m:Text id="idTextAuthor" text="{}" />
-                                            <m:Text id="idTextISBN" text="{}" />
-                                            <m:Text id="idTextDueDate" text="{}" />
+                                            <m:Text id="idTextTitle" text="{book/Title}" />
+                                            <m:Text id="idTextAuthor" text="{book/Author}" />
+                                            <m:Text id="idTextISBN" text="{book/ISBN}" />
+                                            <m:Text id="idTextReturnDate" text="{ReturnDate}" />
                                         </m:cells>
                                     </m:ColumnListItem>
                                 </m:items>
@@ -161,7 +162,8 @@
                                             <m:Text id="idTextItemLAuthor" text="{Author}" />
                                             <m:Text id="idTextItemLTitle" text="{Title}" />
                                             <m:Text id="idTextItemLQuantity" text="{Quantity}" />
-                                            <m:Link id="idTextItemLISBN" text="{ISBN}" press="onPressISBN" />
+                                            <m:Text id="idTextItemLISBN" text="{ISBN}"/>
+                                            <!-- <m:Link id="idTextItemLISBN" text="{ISBN}" press="onPressISBN" /> -->
                                             <m:Text id="idTextItemLAvail" text="{Availability}" />
                                         </m:cells>
                                     </m:ColumnListItem>

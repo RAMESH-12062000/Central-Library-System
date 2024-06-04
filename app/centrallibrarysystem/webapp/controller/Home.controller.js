@@ -22,7 +22,7 @@ sap.ui.define([
                     Name : "",
                     Email:"",
                     Username: "",
-                    //phonenumber:"",
+                    phonenumber:"",
                     Password: "",
                     userType: "member",
                    
@@ -107,11 +107,6 @@ sap.ui.define([
                     sap.m.MessageBox.error("Some technical Issue...");
                 }
             },
-
-
-
-
-
 
 
             //This is for REGISTER Close...

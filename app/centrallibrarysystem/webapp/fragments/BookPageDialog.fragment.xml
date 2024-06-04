@@ -21,7 +21,6 @@
                         <HBox id="idHBox">
                             <Image
                                 id="idBookPageImage"
-                                src="{BookImage}"
                                 width="150px"
                                 height="200px"
                             />
@@ -71,11 +70,6 @@
                     <Label
                         id="idLable"
                         text="Book Description:"
-                    />
-                    <Text
-                        id="idTextDescription"
-                        text="{Description}"
-                        wrapping="true"
                     />
                 </content>
             </Panel>

@@ -38,12 +38,12 @@
                     />
                 </f:snappedTitleOnMobile>
                 <f:navigationActions>
-                    <Button
+                    <!-- <Button
                         id="idReservedBooksBtn"
                         text="Reserved Books"
                         type="Emphasized"
                         press="onReservedBooksBtn"
-                    />
+                    /> -->
                     <Button
                         id="idActiveLoansBtn"
                         text="Actve Loans"
@@ -61,11 +61,11 @@
                         type="Transparent"
                         press="onBackBtnPress"
                     />
-                    <Button
+                    <!-- <Button
                         id="idBtnFullScreen"
                         icon="sap-icon://full-screen"
                         type="Transparent"
-                    />
+                    /> -->
                 </f:navigationActions>
             </f:DynamicPageTitle>
         </f:title>
@@ -190,7 +190,7 @@
                         <ToolbarSpacer id="idTableHeaderSpacer" />
                         <Button
                             id="idIssueBooksButton"
-                            text="Issue Book"
+                            text="Issueing Books"
                             type="Accept"
                             tooltip="IssueBook"
                             press="onIssueBooksBtnPress"

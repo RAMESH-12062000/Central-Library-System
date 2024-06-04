@@ -1,76 +1,117 @@
-<core:FragmentDefinition
-    xmlns:core="sap.ui.core"
-    xmlns="sap.m"
+<core:FragmentDefinition xmlns:tnt="sap.tnt"
+    xmlns:layout="sap.ui.layout"
     xmlns:form="sap.ui.layout.form"
+    xmlns:m="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns:ui5="sap.ui.webc.main"
+    height="100%"
 >
-    <Dialog
-        id="idIssueBook"
-        resizable="false"
+    <m:Dialog
+        id="idIssueTable"
+        resizable="true"
         draggable="true"
-        contentWidth="35%"
-        title="Issue Books"
+        contentWidth="85%"
+        contentHeight="85%"
+        title="Issueing Books:"
     >
-        <beginButton>
-            <Button
-                id="idIssueBtn"
-                text="Issue Book"
-                press="onIssueBookPress"
-                type="Success"
-            />
-        </beginButton>
-        <endButton>
-            <Button
-                id="idCancelIssue"
-                text="Cancel"
-                press="onCloseIssueBookPress"
-                type="Negative"
-            />
-        </endButton>
-
-        <content>
-            <form:SimpleForm
-                id="idIssueBookForm"
-                editable="true"
-                layout="ResponsiveGridLayout"
-                labelSpanXL="3"
-                labelSpanL="3"
-                labelSpanM="3"
-                labelSpanS="12"
-                adjustLabelSpan="false"
-                emptySpanXL="4"
-                emptySpanL="4"
-                emptySpanM="4"
-                emptySpanS="0"
-                columnsXL="1"
-                columnsL="1"
-                columnsM="1"
-                singleContainerFullSize="false"
+        <m:content>
+            <m:Table
+                id="idIssueBooksTable"
+                mode="MultiSelect"
+                alternateRowColors="true"
+                items="{/IssueingBooks}"
             >
-                <Label
-                    id="idLableUserID"
-                    text="User ID"
+                <m:headerToolbar>
+                    <m:OverflowToolbar id="idBooksTableHeaderIssueBooks">
+                    <m:Title
+                            id="idTableHeaderIssueBooks"
+                            text="Issue Books:-"
+                        />
+                        <m:ToolbarSpacer id="idTableHeaderSpacerIssueBooks" />
+                    </m:OverflowToolbar>
+                </m:headerToolbar>
+                <m:columns>
+                    <m:Column id="idBookNameColIssueBooks">
+                        <m:Title
+                            id="idBookNameColTitleIssueBooks"
+                            text="Book Name:"
+                        />
+                    </m:Column>
+                    <m:Column id="idAuthorColIssueBooks">
+                        <m:Title
+                            id="idAuthorColTitleIssueBooks"
+                            text="Author Name:"
+                        />
+                    </m:Column>
+                    <m:Column id="idIsbnColIssueBooks">
+                        <m:Title
+                            id="idIsbnColTitleIssueBooks"
+                            text="Book ISBN:"
+                        />
+                    </m:Column>
+                    <m:Column id="idUserIdColumn">
+                        <m:Title
+                            id="idUserIdtitle"
+                            text="User ID:"
+                        />
+                    </m:Column>
+                    <m:Column id="idDueDateColIssueBooks">
+                        <m:Title
+                            id="idDueDateColTitleIssueBooks"
+                            text="Reserved Date:"
+                        />
+                    </m:Column>
+                </m:columns>
+                <m:items>
+                    <m:ColumnListItem id="idBooksTableColListItemIssueBooks">
+                        <m:cells>
+                            <m:Text
+                                id="idBookNameColValueIssueBooks"
+                                text="{Book12/Title}"
+                            />
+                            <m:Text
+                                id="idAuthorColValueIssueBooks"
+                                text="{Book12/Author}"
+                            />
+                            <m:Text
+                                id="idISBNColValueIssueBooks"
+                                text="{Book12/ISBN}"
+                            />
+                            <m:Text
+                                id="idUserIDIssueBooks"
+                                text="{user12/ID}"
+                            />
+                            <m:Text
+                                id="idDueDateValueIssueBooks"
+                                text="{reservedDate}"
+                            />
+                        </m:cells>
+                    </m:ColumnListItem>
+                </m:items>
+            </m:Table>
+            <m:HBox
+                id="idHboxBtns"
+                justifyContent="End"
+                width="100%"
+                class="sapUiSmallMarginTop"
+            >
+                <m:Button
+                    id="idAcceptBtnIssueBooks"
+                    icon="sap-icon://accept"
+                    text="Accept"
+                    tooltip="Accept Book"
+                    type="Transparent"
+                    press="onAcceptButtonIssueBookPress"
                 />
-                <Input id="idUseridInput" value="{localModel>/Userid}" />
-                <Label
-                    id="idLableBookName"
-                    text="Book Name"
+                <m:Button
+                    id="idAcceptButton3"
+                    text="Cancle"
+                    press="onCancleIssueBookPress"
+                    type="Transparent"
                 />
-                <Input
-                    id="idBookNameInput"
-                    value="{localModel>/bookname}"
-                />
-                <Label
-                    id="idlblAuthor"
-                    text="Author"
-                />
-                <Input id="idAuthorInput123" value="{localModel>/Author}" />
-
-                <Label
-                    id="idlblISBN"
-                    text="ISBN"
-                />
-                <Input id="idISBNInput" value="{localModel>/ISBN}"/>
-            </form:SimpleForm>
-        </content>
-    </Dialog>
+            </m:HBox>
+        </m:content>
+    </m:Dialog>
 </core:FragmentDefinition>
