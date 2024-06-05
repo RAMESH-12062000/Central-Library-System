@@ -76,10 +76,12 @@
                 <Label
                     id="idLableUserType"
                     text="User Type"
+                    
                 />
                 <Input
                     id="idInputuserType"
                     value="{localModel2>/userType}"
+                    editable="false"
                 />
             </form:SimpleForm>
         </content>

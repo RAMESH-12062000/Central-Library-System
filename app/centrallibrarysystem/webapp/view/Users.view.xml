@@ -103,7 +103,7 @@
                     <Column id="idBookNameCol">
                         <Title
                             id="idBookNameColTitle"
-                            text="Book Name"
+                            text="User ID"
                         />
                     </Column>
                 </columns>
@@ -123,7 +123,7 @@
                             />
                             <Text
                                 id="idBookNameColValue"
-                                text="{Title}"
+                                text="{ID}"
                             />
                         </cells>
                     </ColumnListItem>

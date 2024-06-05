@@ -114,7 +114,7 @@ sap.ui.define(
 
             //For delete the perticular selected book...
             onCheckDelete: function (oEvent) {
-                // debugger;
+                //MessageToast.show("Book updated successfully");
                 var oSelected = this.byId("idBooksTable").getSelectedItem();
                 if (oSelected) {
                     var oBookName = oSelected.getBindingContext().getObject().title;
@@ -133,7 +133,8 @@ sap.ui.define(
 
             //For Opens the UpdateBooksDialog ...
             onEditBooksBtnPress: async function () {
-                
+                MessageToast.show("Please select a Book to Edit..!");
+
                 var oSelected = this.byId("idBooksTable").getSelectedItem();
                 if (oSelected) {
                     debugger
@@ -153,11 +154,10 @@ sap.ui.define(
                     });
                     this.getView().setModel(oNewBookModel, "newBookModel");
                     if (!this.oUpdateBooksDialog) {
-                        
+
                         this.oUpdateBooksDialog = await this.loadFragment("UpdateBooksDialog"); // Load your fragment asynchronously
                     }
                     this.oUpdateBooksDialog.open();
-                    MessageToast.show("Please select a Book to Edit..!");
                 }
             },
             //After Update Opens then edit that books and save it...
@@ -175,7 +175,14 @@ sap.ui.define(
                 } catch (error) {
                     MessageBox.error("Failed to update the book");
                 }
+                var oDataModel = new sap.ui.model.odata.v2.ODataModel({
+                    serviceUrl: "https://port4004-workspaces-ws-xm82l.us10.trial.applicationstudio.cloud.sap/odata/v2/LibrarySystemSRV/",
+                    defaultBindingMode: sap.ui.model.BindingMode.TwoWay,
+                    // Configure message parser
+                    messageParser: sap.ui.model.odata.ODataMessageParser
+                })
             },
+            
 
 
 
@@ -194,6 +201,36 @@ sap.ui.define(
                 }
                 this.oActiveLoansDialog.open();
             },
+
+            onClearLoanPress: function (oEvent) {
+                const oItem = oEvent.getSource().getParent();
+                const oContext = oItem.getBindingContext();
+                const sPath = oContext.getPath();
+                const oModel = this.getView().getModel("ModelV2");
+                const oBookData = oContext.getObject();
+
+                MessageBox.confirm(
+                    `Are you sure you want to delete the loan for book '${oBookData.book.Title} '?`,
+                    {
+                        actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                        onClose: function (sAction) {
+                            if (sAction === MessageBox.Action.YES) {
+                                debugger
+                                oModel.remove(sPath, {
+                                    success: function () {
+                                        MessageBox.success(`Loan for book '${oBookData.book.Title}' deleted successfully.`);
+                                    },
+                                    error: function () {
+                                        MessageBox.error(`Failed to delete loan for book '${oBookData.book.Title}'.`);
+                                    }
+                                });
+                            this.getView().byId("idBooksTable").getBinding("items").refresh();
+
+                            }
+                        }
+                    }
+                );
+            },
             //close button for ActiveLoans popup closed..
             onCloseActiveLoans: function () {
                 if (this.oActiveLoansDialog.isOpen()) {
@@ -210,29 +247,35 @@ sap.ui.define(
             },
 
             onAcceptButtonIssueBookPress: async function (oEvent) {
-                if(this.byId("idIssueBooksTable").getSelectedItems().length>1){
+                if (this.byId("idIssueBooksTable").getSelectedItems().length > 1) {
                     MessageToast.show("Please Select only one Book");
                     return
                 }
-                var oSelectedBook=this.byId("idIssueBooksTable").getSelectedItem().getBindingContext().getObject()
+                var oSelectedBook = this.byId("idIssueBooksTable").getSelectedItem().getBindingContext().getObject()
                 console.log(oSelectedBook)
                 debugger
                 const userModel = new sap.ui.model.json.JSONModel({
                     user_ID: oSelectedBook.user12.ID,
                     book_ID: oSelectedBook.Book12.ID,
                     IssueDate: new Date(),
-                    ReturnDate:new Date()
+                    ReturnDate: new Date()
                 });
                 this.getView().setModel(userModel, "userModel");
-             
+
                 const oPayload = this.getView().getModel("userModel").getProperty("/"),
                     oModel = this.getView().getModel("ModelV2");
-             
+
                 try {
                     await this.createData(oModel, oPayload, "/BookLoans");
                     sap.m.MessageBox.success("Book Accepted");
                 } catch (error) {
                     sap.m.MessageBox.error("Some technical Issue");
+                }
+            },
+            //For Closing Issue Books...
+            onCancleIssueBookPress: function () {
+                if (this.onIssueBooksFragment.isOpen()) {
+                    this.onIssueBooksFragment.close()
                 }
             },
 
@@ -269,20 +312,6 @@ sap.ui.define(
             //     });
             //     this.onIssueBooksFragment.close();
             // },
-
-
-
-
-
-
-
-            //For Closing Issue Books...
-            onCloseIssueBookPress: function () {
-                if (this.onIssueBooksFragment.isOpen()) {
-                    this.onIssueBooksFragment.close()
-                }
-            },
-
 
             //Button Reserved Books popup... 
             // onReservedBooksBtn: async function () {

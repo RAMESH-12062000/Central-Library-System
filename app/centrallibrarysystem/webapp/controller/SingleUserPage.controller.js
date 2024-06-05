@@ -3,9 +3,10 @@ sap.ui.define(
         "./BaseController",
         "sap/ui/model/odata/v2/ODataModel",
         "sap/ui/core/Fragment",
-        "sap/m/MessageBox"
+        "sap/m/MessageBox",
+        "sap/m/MessageToast"
     ],
-    function (BaseController, ODataModel, Fragment, MessageBox) {
+    function (BaseController, ODataModel, Fragment, MessageBox, MessageToast) {
         "use strict";
 
         return BaseController.extend("com.app.centrallibrarysystem.controller.SingleUserPage", {
@@ -37,10 +38,7 @@ sap.ui.define(
                     MessageToast.show("Please Select only one Book");
                     return;
                 }
-                var oSelectedBook = this.byId("idBooksTable")
-                    .getSelectedItem()
-                    .getBindingContext()
-                    .getObject();
+                var oSelectedBook = this.byId("idBooksTable").getSelectedItem().getBindingContext().getObject();   
                 console.log(oSelectedBook);
 
                 const userModel = new sap.ui.model.json.JSONModel({
@@ -61,6 +59,45 @@ sap.ui.define(
                 } catch (error) {
                     //this.oCreateBooksDialog.close();
                     sap.m.MessageBox.error("Some technical Issue");
+                }
+            },
+
+
+            onReturnBookPress: function () {
+                const oView = this.getView();
+                const oModel = oView.getModel("ModelV2");
+                const aSelectedItems = oView.byId("idUserActiveLoanTable").getSelectedItems();
+
+                if (aSelectedItems.length === 0) {
+                    MessageBox.warning("Please select at least one book to return.");
+                    return;
+                }
+
+                aSelectedItems.forEach(function (oItem) {
+                    const oContext = oItem.getBindingContext();
+                    const sPath = oContext.getPath();
+                    const oBookData = oContext.getObject();
+
+                    //update the book's availability and remove it from the user's active loans
+                    oModel.remove(sPath, {
+                        success: function () {
+                            MessageBox.success(`Book ${oBookData.book.Title} returned successfully.`);
+                        },
+                        error: function () {
+                            MessageBox.error(`Failed to return book ${oBookData.book.Title}.`);
+                        }
+                    });
+                });
+                
+                // Refresh the total books table
+                this._refreshTotalBooksTable();
+            },
+            _refreshTotalBooksTable: function () {
+                const oBooksTable = this.getView().byId("idBooksTable");
+                const oBinding = oBooksTable.getBinding("items");
+
+                if (oBinding) {
+                    oBinding.refresh();
                 }
             },
 
