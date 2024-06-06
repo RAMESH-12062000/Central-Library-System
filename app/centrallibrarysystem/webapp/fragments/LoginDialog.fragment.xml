@@ -49,6 +49,7 @@
                 <Label
                     id="idUsernameLabel"
                     text="Username"
+                    required="true"
                 />
                 <Input
                     placeholder="Enter Username"
@@ -58,12 +59,14 @@
                 <Label
                     id="idPassword"
                     text="Password"
+                    required="true"
                 />
                 <Input
                     placeholder="Enter Password"
                     id="idPasswordInput"
                     value=""
                     type="Password"
+                    valueStateText="Pls Enter your password"
                 />
             </form:SimpleForm>
         </content>

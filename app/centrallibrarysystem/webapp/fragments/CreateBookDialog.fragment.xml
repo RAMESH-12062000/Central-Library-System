@@ -72,6 +72,14 @@
                     id="idIsbnInput"
                     value="{localModel>/ISBN}"
                 />
+                <Label
+                    id="idLableLanguage"
+                    text="Language"
+                />
+                <Input
+                    id="idLanguageInput"
+                    value="{localModel>/Language}"
+                />
 
                 <Label
                     id="idLableQuantity"

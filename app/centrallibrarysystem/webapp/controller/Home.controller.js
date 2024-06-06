@@ -95,18 +95,75 @@ sap.ui.define([
 
             //for Creating New User...
             onSubmitPress: async function () {
-                debugger
-                //After Creating model need to call that model and in the ui page assign that model to valueInput...
+                debugger;
+                // Get Payload from localModel2
                 const oPayload = this.getView().getModel("localModel2").getProperty("/"),
                     oModel = this.getView().getModel("ModelV2");
+                
+                // Check if username and password are provided
+                if (!oPayload.Username || !oPayload.Password) {
+                    sap.m.MessageBox.error("Please enter valid Username and Password");
+                    return;
+                }
+
+                // Validate email and phone number
+                var emailRegex = /^[a-zA-Z0-9._%+-]+@[gmail]+\.[a-zA-Z]{2,}$/;
+                var phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
+                if (!(emailRegex.test(oPayload.Email) && phoneRegex.test(oPayload.phonenumber))) {
+                    MessageToast.show("Please enter valid email and phone number");
+                    return;
+                }
+
+                // Check if username, email, or phone number already exist
+                const aFilters = [
+                    new Filter("Username", FilterOperator.EQ, oPayload.Username),
+                    new Filter("Email", FilterOperator.EQ, oPayload.Email),
+                    new Filter("phonenumber", FilterOperator.EQ, oPayload.phonenumber)
+                ];
+
+                const aFilterPromises = aFilters.map(oFilter => 
+                    new Promise((resolve, reject) => {
+                        oModel.read("/users", {
+                            filters: [oFilter],
+                            success: function (oData) {
+                                if (oData.results.length > 0) {
+                                    resolve(true);
+                                } else {
+                                    resolve(false);
+                                }
+                            },
+                            error: function (oError) {
+                                reject(oError);
+                            }
+                        });
+                    })
+                );
+
                 try {
+                    const [bUsernameExists, bEmailExists, bPhoneExists] = await Promise.all(aFilterPromises);
+                    if (bUsernameExists) {
+                        sap.m.MessageBox.error("Username is already used. Please enter a valid username.");
+                        return;
+                    }
+                    if (bEmailExists) {
+                        sap.m.MessageBox.error("Email is already used. Please enter a valid email.");
+                        return;
+                    }
+                    if (bPhoneExists) {
+                        sap.m.MessageBox.error("Phone number is already used. Please enter a valid phone number.");
+                        return;
+                    }
+
+                    // Create new user if all checks pass
                     await this.createData(oModel, oPayload, "/users");
                     this.oRegisterUserPress.close();
+                    MessageToast.show("Your Details registered successfully");
                 } catch (error) {
                     this.oRegisterUserPress.close();
-                    sap.m.MessageBox.error("Some technical Issue...");
+                    sap.m.MessageBox.error("Some technical issue occurred,");
                 }
             },
+
 
 
             //This is for REGISTER Close...

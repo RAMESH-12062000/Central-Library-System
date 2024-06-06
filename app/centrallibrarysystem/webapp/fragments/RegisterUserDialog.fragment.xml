@@ -50,29 +50,29 @@
                     id="idLableName"
                     text="Name"
                 />
-                <Input id="idNewUserNameInput" value="{localModel2>/Name}" />
+                <Input id="idNewUserNameInput" value="{localModel2>/Name}" required="true" />
                 <Label
                     id="idLableEmail"
                     text="Email"
                 />
-                <Input id="idEmailInput" value="{localModel2>/Email}" />
+                <Input id="idEmailInput" value="{localModel2>/Email}" required="true"/>
                 <Label
                     id="idLableUserName"
                     text="User Name"
                 />
-                <Input id="idUserNameInput" value="{localModel2>/Username}" />
+                <Input id="idUserNameInput" value="{localModel2>/Username}" required="true"/>
                 <Label
                     id="idLablePhoneNumber"
                     text="Phone Number"
                 />
-                <Input id="idPhoneNumberInput" value="{localModel2>/phonenumber}" />
+                <Input id="idPhoneNumberInput" value="{localModel2>/phonenumber}" required="true"/>
 
                 <Label
                     id="idLableCreatePassword"
                     text="Create Password"
                 />
                 <Input
-                    id="idCreatePasswordInput" value="{localModel2>/Password}"/>
+                    id="idCreatePasswordInput" value="{localModel2>/Password}" required="true"/>
                 <Label
                     id="idLableUserType"
                     text="User Type"
@@ -82,6 +82,7 @@
                     id="idInputuserType"
                     value="{localModel2>/userType}"
                     editable="false"
+                    required="true"
                 />
             </form:SimpleForm>
         </content>

@@ -35,7 +35,9 @@ sap.ui.define(
                     Title: "",
                     Author: "",
                     ISBN: "",
+                    Language: "",
                     Quantity: "",
+                    Availability: ""
                 });
                 this.getView().setModel(oLocalModel, "localModel");
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this.onBooksListLoad, this);
@@ -102,6 +104,9 @@ sap.ui.define(
             onCreateBook: async function () {
                 const oPayload = this.getView().getModel("localModel").getProperty("/"),
                     oModel = this.getView().getModel("ModelV2");
+                oPayload.Availability = oPayload.Quantity;
+                this.getView().getModel("localModel").setData(oPayload);
+
                 try {
                     await this.createData(oModel, oPayload, "/Books");
                     this.getView().byId("idBooksTable").getBinding("items").refresh();
@@ -133,23 +138,26 @@ sap.ui.define(
 
             //For Opens the UpdateBooksDialog ...
             onEditBooksBtnPress: async function () {
-                MessageToast.show("Please select a Book to Edit..!");
 
                 var oSelected = this.byId("idBooksTable").getSelectedItem();
                 if (oSelected) {
                     debugger
+                    var oID = oSelected.getBindingContext().getObject().ID
                     var oAuthorName = oSelected.getBindingContext().getObject().Author
                     var oBookname = oSelected.getBindingContext().getObject().Title
                     var oQuantity = oSelected.getBindingContext().getObject().Quantity
+                    var oAvailability = oSelected.getBindingContext().getObject().Availability
                     var oLanguage = oSelected.getBindingContext().getObject().Language
                     var oISBN = oSelected.getBindingContext().getObject().ISBN
 
                     const oNewBookModel = new JSONModel({
+                        ID: oID,
                         Author: oAuthorName,
                         Title: oBookname,
                         ISBN: oISBN,
                         Language: oLanguage,
                         Quantity: oQuantity,
+                        Availability: oAvailability,
 
                     });
                     this.getView().setModel(oNewBookModel, "newBookModel");
@@ -158,31 +166,66 @@ sap.ui.define(
                         this.oUpdateBooksDialog = await this.loadFragment("UpdateBooksDialog"); // Load your fragment asynchronously
                     }
                     this.oUpdateBooksDialog.open();
+                }else{
+                    MessageToast.show("Please select a Book to Edit..!");
                 }
             },
             //After Update Opens then edit that books and save it...
             onUpdateBooksPress: async function () {
                 debugger
-                const oPayload = this.getView().getModel("newBookModel").getProperty("/");
-                const sPath = "/Books";
-                const oModel = this.getView().getModel("ModelV2");
+                const oPayload = this.getView().getModel("newBookModel").getData();
+                var AQ1 = oPayload.Availability;
+                var Q1 = parseInt(oPayload.Quantity);
+                if (AQ1 > Q1){
+                    var A2 = A1 - Q1;
+                    var AQ2 = A1 - A2;
+                    oPayload.Availability = AQ2;
+                    this.getView().getModel("newBookModel").setData(oPayload);
+                } else if (AQ1 < Q1) {
+                    var A2 = Q1 - AQ1;
+                    var B2 = AQ1 + A2;
+                    oPayload.Availability = B2;
+                    this.getView().getModel("newBookModel").setData(oPayload);
+                }
+                var oDataModel = this.getOwnerComponent().getModel("ModelV2");
+                //console.log(oDataModel.getMetadata().getName());
 
                 try {
-                    await this.updateData(oModel, oPayload, sPath);
-                    this.getView().byId("idBooksTable").getBinding("items").refresh();
+                    // Assuming your update method is provided by your OData V2 model
+                    oDataModel.update("/Books(" + oPayload.ID + ")", oPayload, {
+                      success: function () {
+                        this.getView().byId("idBooksTable").getBinding("items").refresh();
+                        // MessageToast.show("Edited successful!");
+                        this.oUpdateBooksDialog.close();
+                      }.bind(this),
+                      error: function (oError) {
+                        this.oUpdateBooksDialog.close();
+                        sap.m.MessageBox.error("Failed to update book: " + oError.message);
+                      }.bind(this)
+                    });
+                  } catch (error) {
                     this.oUpdateBooksDialog.close();
-                    MessageToast.show("Book updated successfully");
-                } catch (error) {
-                    MessageBox.error("Failed to update the book");
-                }
-                var oDataModel = new sap.ui.model.odata.v2.ODataModel({
-                    serviceUrl: "https://port4004-workspaces-ws-xm82l.us10.trial.applicationstudio.cloud.sap/odata/v2/LibrarySystemSRV/",
-                    defaultBindingMode: sap.ui.model.BindingMode.TwoWay,
-                    // Configure message parser
-                    messageParser: sap.ui.model.odata.ODataMessageParser
-                })
+                    sap.m.MessageBox.error("Some technical Issue");
+                  }
+                // const sPath = "/Books";
+                // const oModel = this.getView().getModel("ModelV2");
+
+                // try {
+                //     await this.updateData(oModel, oPayload, sPath);
+                //     this.getView().byId("idBooksTable").getBinding("items").refresh();
+                //     this.oUpdateBooksDialog.close();
+                //     MessageToast.show("Book updated successfully");
+                // } catch (error) {
+                //     MessageBox.error("Failed to update the book");
+                // }
+                // var oDataModel = new sap.ui.model.odata.v2.ODataModel({
+                //     serviceUrl: "https://port4004-workspaces-ws-xm82l.us10.trial.applicationstudio.cloud.sap/odata/v2/LibrarySystemSRV/",
+                //     defaultBindingMode: sap.ui.model.BindingMode.TwoWay,
+                //     // Configure message parser
+                //     messageParser: sap.ui.model.odata.ODataMessageParser
+                // })
             },
-            
+
 
 
 
@@ -224,8 +267,6 @@ sap.ui.define(
                                         MessageBox.error(`Failed to delete loan for book '${oBookData.book.Title}'.`);
                                     }
                                 });
-                            this.getView().byId("idBooksTable").getBinding("items").refresh();
-
                             }
                         }
                     }

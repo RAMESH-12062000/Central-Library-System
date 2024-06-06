@@ -53,6 +53,7 @@
                 <Input
                     id="idUpdateTitleInput"
                     value="{newBookModel>/Title}"
+                    editable="false"
                 />
 
                 <Label
@@ -62,6 +63,7 @@
                 <Input
                     id="idUpdateAuthorInput"
                     value="{newBookModel>/Author}"
+                    editable="false"
                 />
 
                 <Label
@@ -71,6 +73,7 @@
                 <Input
                     id="idUpdateIsbnInput"
                     value="{newBookModel>/ISBN}"
+                    editable="false"
                 />
 
                 <Label
@@ -80,6 +83,7 @@
                 <Input
                     id="idUpdateLanguageInput"
                     value="{newBookModel>/Language}"
+                    editable="false"
                 />
 
                 <Label

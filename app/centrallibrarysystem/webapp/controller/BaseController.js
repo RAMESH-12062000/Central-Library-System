@@ -35,19 +35,19 @@ sap.ui.define(
         })
       },
 
-      updateData: async function (oModel, oPayload, sPath) {
-        return new Promise((resolve, reject) => {
-          oModel.update(sPath, oPayload, {
-            refreshAfterChange: true,
-            success: function (oSuccessData) {
-              resolve(oSuccessData);
-            },
-            error: function (oErrorData) {
-              reject(oErrorData)
-            }
-          })
-        })
-      },
+      // updateData: async function (oModel, oPayload, sPath) {
+      //   return new Promise((resolve, reject) => {
+      //     oModel.update(sPath, oPayload, {
+      //       refreshAfterChange: true,
+      //       success: function (oSuccessData) {
+      //         resolve(oSuccessData);
+      //       },
+      //       error: function (oErrorData) {
+      //         reject(oErrorData)
+      //       }
+      //     })
+      //   })
+      // },
 
       deleteData: function (oModel, sPath, ID) {
         return new Promise((resolve, reject) => {

@@ -57,8 +57,9 @@
                     /> -->
                     <Button
                         id="idBtnBack"
-                        icon="sap-icon://undo"
-                        type="Transparent"
+                        icon="sap-icon://visits"
+                        tooltip="Logout"
+                        type="Reject"
                         press="onBackBtnPress"
                     />
                     <!-- <Button
