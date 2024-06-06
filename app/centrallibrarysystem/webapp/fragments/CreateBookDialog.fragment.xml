@@ -53,6 +53,7 @@
                 <Input
                     id="idTitleInput"
                     value="{localModel>/Title}"
+                    required="true"
                 />
 
                 <Label
@@ -62,6 +63,7 @@
                 <Input
                     id="idAuthorInput"
                     value="{localModel>/Author}"
+                    required="true"
                 />
 
                 <Label
@@ -71,6 +73,7 @@
                 <Input
                     id="idIsbnInput"
                     value="{localModel>/ISBN}"
+                    required="true"
                 />
                 <Label
                     id="idLableLanguage"
@@ -79,6 +82,7 @@
                 <Input
                     id="idLanguageInput"
                     value="{localModel>/Language}"
+                    required="true"
                 />
 
                 <Label
@@ -88,6 +92,7 @@
                 <Input
                     id="idQuantityInput"
                     value="{localModel>/Quantity}"
+                    required="true"
                 />
             </form:SimpleForm>
         </content>

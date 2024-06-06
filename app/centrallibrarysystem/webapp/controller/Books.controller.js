@@ -104,18 +104,75 @@ sap.ui.define(
             onCreateBook: async function () {
                 const oPayload = this.getView().getModel("localModel").getProperty("/"),
                     oModel = this.getView().getModel("ModelV2");
-                oPayload.Availability = oPayload.Quantity;
-                this.getView().getModel("localModel").setData(oPayload);
+
+                // Validate required fields
+                if (!oPayload.Title || !oPayload.Author || !oPayload.ISBN ) {
+                    MessageBox.error("Please enter all required fields.");
+                    return;
+                }
+
+                // Check if the book already exists in the library
+                const aFilters = [
+                    new Filter("Title", FilterOperator.EQ, oPayload.Title),
+                    new Filter("ISBN", FilterOperator.EQ, oPayload.ISBN),
+                    new Filter("Author", FilterOperator.EQ, oPayload.Author)
+                ];
 
                 try {
+                    const aFilterPromises = aFilters.map(oFilter =>
+                        new Promise((resolve, reject) => {
+                            oModel.read("/Books", {
+                                filters: [oFilter],
+                                success: function (oData) {
+                                    if (oData.results.length > 0) {
+                                        resolve(true);
+                                    } else {
+                                        resolve(false);
+                                    }
+                                },
+                                error: function (oError) {
+                                    reject(oError);
+                                }
+                            });
+                        })
+                    );
+
+                    const [bTitleExists, bISBNExists, bAuthorExists] = await Promise.all(aFilterPromises);
+                    if (bTitleExists || bISBNExists || bAuthorExists) {
+                        MessageBox.error("Title, ISBN, or Author already exists in the Library. Please Check it Once...");
+                        return;
+                    }
+
+                    // Set availability equal to quantity
+                    oPayload.Availability = oPayload.Quantity;
+                    this.getView().getModel("localModel").setData(oPayload);
+
+                    // Create the new book
                     await this.createData(oModel, oPayload, "/Books");
                     this.getView().byId("idBooksTable").getBinding("items").refresh();
                     this.oCreateBookDialog.close();
+                    MessageToast.show("Book created successfully");
                 } catch (error) {
                     this.oCreateBookDialog.close();
-                    MessageBox.error("Some technical Issue");
+                    MessageBox.error("Some technical issue occurred.");
                 }
             },
+
+            // onCreateBook: async function () {
+            //     const oPayload = this.getView().getModel("localModel").getProperty("/"),
+            //         oModel = this.getView().getModel("ModelV2");
+            //     oPayload.Availability = oPayload.Quantity;
+            //     this.getView().getModel("localModel").setData(oPayload);
+
+            //     try {
+            //         await this.createData(oModel, oPayload, "/Books");
+            //         this.getView().byId("idBooksTable").getBinding("items").refresh();
+            //         this.oCreateBookDialog.close();
+            //     } catch (error) {
+            //         this.oCreateBookDialog.close();
+            //         MessageBox.error("Some technical Issue");
+            //     }
+            // },
 
             //For delete the perticular selected book...
             onCheckDelete: function (oEvent) {
