@@ -38,12 +38,21 @@
                     />
                 </f:snappedTitleOnMobile>
                 <f:navigationActions>
-                    <!-- <Button
-                        id="idReservedBooksBtn"
-                        text="Reserved Books"
-                        type="Emphasized"
-                        press="onReservedBooksBtn"
-                    /> -->
+                    <Button
+                        id="idReturnedBooksBtn"
+                        icon="sap-icon://bell"
+                        tooltip="Notifications"
+                        press="handlePopoverPress"
+                    >
+                        <customData>
+                            <BadgeCustomData
+                                id="idBadge"
+                                class="badge"
+                                value="{/ReturnedBooks/$count}"
+                                visible="true"
+                            />
+                        </customData>
+                    </Button>
                     <Button
                         id="idActiveLoansBtn"
                         text="Actve Loans"
@@ -257,9 +266,7 @@
                     </Column>
                 </columns>
                 <items>
-                    <ColumnListItem
-                        id="idBooksTableColListItem"
-                    >
+                    <ColumnListItem id="idBooksTableColListItem">
                         <cells>
                             <Text
                                 id="idTitleColValue"

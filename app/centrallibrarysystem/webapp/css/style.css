@@ -71,3 +71,14 @@
 .sapUiSmallMarginEnd3{
     margin-left: 2rem;
 }
+
+.onCloseReturnBooks{
+    margin-right: 15px; 
+}
+
+
+.CustomPopOver{
+    width: 600px;
+    height: 200px;
+    overflow: auto;
+}

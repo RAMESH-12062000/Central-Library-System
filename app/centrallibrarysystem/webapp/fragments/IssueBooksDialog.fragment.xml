@@ -57,6 +57,12 @@
                             text="User ID:"
                         />
                     </m:Column>
+                    <m:Column id="idNameColumn">
+                        <m:Title
+                            id="idNametitle"
+                            text="User's Name:"
+                        />
+                    </m:Column>
                     <m:Column id="idDueDateColIssueBooks">
                         <m:Title
                             id="idDueDateColTitleIssueBooks"
@@ -82,6 +88,10 @@
                             <m:Text
                                 id="idUserIDIssueBooks"
                                 text="{user12/ID}"
+                            />
+                            <m:Text
+                                id="idNameIssueBooks"
+                                text="{user12/Name}"
                             />
                             <m:Text
                                 id="idDueDateValueIssueBooks"

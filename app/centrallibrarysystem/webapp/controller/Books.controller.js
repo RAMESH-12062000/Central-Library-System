@@ -324,6 +324,7 @@ sap.ui.define(
                                         MessageBox.error(`Failed to delete loan for book '${oBookData.book.Title}'.`);
                                     }
                                 });
+                                this.getView().byId("myTable").getBinding("items").refresh();
                             }
                         }
                     }
@@ -351,12 +352,16 @@ sap.ui.define(
                 }
                 var oSelectedBook = this.byId("idIssueBooksTable").getSelectedItem().getBindingContext().getObject()
                 console.log(oSelectedBook)
+                var oAvailability = parseInt(oSelectedBook.Book12.Availability) - 1
                 debugger
                 const userModel = new sap.ui.model.json.JSONModel({
                     user_ID: oSelectedBook.user12.ID,
                     book_ID: oSelectedBook.Book12.ID,
                     IssueDate: new Date(),
-                    ReturnDate: new Date()
+                    ReturnDate: new Date(),
+                    book: {
+                        Availability: oAvailability
+                    }
                 });
                 this.getView().setModel(userModel, "userModel");
 
@@ -411,25 +416,48 @@ sap.ui.define(
             //     this.onIssueBooksFragment.close();
             // },
 
+
+            handlePopoverPress:  function (oEvent) {
+                var oButton = oEvent.getSource(),
+                    oView = this.getView();
+    
+                // create popover
+                if (!this._pPopover) {
+                    this._pPopover =  this.loadFragment("ReturnedBooksDialog").then(function(oPopover) {
+                        oView.addDependent(oPopover);
+                        oPopover.bindElement("");
+                        return oPopover;
+                    });
+                }
+                this._pPopover.then(function(oPopover) {
+                    oPopover.openBy(oButton);
+                });
+            },
+
             //Button Reserved Books popup... 
-            // onReservedBooksBtn: async function () {
-            //     if (!this.onReservedBooks123) {
-            //         this.onReservedBooks123 = await this.loadFragment("ReservedBooksDialog")
+            // onReturnedBooksBtnPress: async function () {
+            //     if (!this.onReturnedBooks123) {
+            //         this.onReturnedBooks123 = await this.loadFragment("ReturnedBooksDialog")
             //     }
-            //     this.onReservedBooks123.open();
+            //     this.onReturnedBooks123.open();
             // },
             //For closing ReservedBooks...
-            // onCloseReservedBooks: function () {
-            //     if (this.onReservedBooks123.isOpen()) {
-            //         this.onReservedBooks123.close()
-            //     }
-            // },
+            onCloseReturnBooksPress: function () {
+                if (this.onReturnedBooks123.isOpen()) {
+                    this.onReturnedBooks123.close()
+                }
+            },
 
             //if you click on UNDO button it will redirect to MAINPAGE...
             onBackBtnPress: function () {
                 const oRouter = this.getOwnerComponent().getRouter();
                 oRouter.navTo("RouteHome")
             },
+
+            
+            // onRefreshBtnPress:function(){
+            //     this.getView().byId("idBooksTable").getBinding("items").refresh();
+            // }
 
         });
     }

@@ -110,7 +110,6 @@
                 <items>
                     <ColumnListItem
                         id="idUsersTableColListItem"
-                        type="Navigation"
                     >
                         <cells>
                             <Text

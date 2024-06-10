@@ -107,7 +107,7 @@ sap.ui.define([
                 }
 
                 // Validate email and phone number
-                var emailRegex = /^[a-zA-Z0-9._%+-]+@[gmail]+\.[a-zA-Z]{2,}$/;
+                var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
                 var phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
                 if (!(emailRegex.test(oPayload.Email) && phoneRegex.test(oPayload.phonenumber))) {
                     MessageToast.show("Please enter valid email and phone number");
