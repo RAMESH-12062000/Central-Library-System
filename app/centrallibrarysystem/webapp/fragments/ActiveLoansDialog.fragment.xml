@@ -13,7 +13,7 @@
     >
         <content>
             <Table
-                id="myTable"
+                id="idActiveLoanstable123"
                 inset="false"
                 items="{/BookLoans}"
             >

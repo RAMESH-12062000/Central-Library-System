@@ -106,7 +106,7 @@ sap.ui.define(
                     oModel = this.getView().getModel("ModelV2");
 
                 // Validate required fields
-                if (!oPayload.Title || !oPayload.Author || !oPayload.ISBN ) {
+                if (!oPayload.Title || !oPayload.Author || !oPayload.ISBN) {
                     MessageBox.error("Please enter all required fields.");
                     return;
                 }
@@ -223,7 +223,7 @@ sap.ui.define(
                         this.oUpdateBooksDialog = await this.loadFragment("UpdateBooksDialog"); // Load your fragment asynchronously
                     }
                     this.oUpdateBooksDialog.open();
-                }else{
+                } else {
                     MessageToast.show("Please select a Book to Edit..!");
                 }
             },
@@ -233,7 +233,7 @@ sap.ui.define(
                 const oPayload = this.getView().getModel("newBookModel").getData();
                 var AQ1 = oPayload.Availability;
                 var Q1 = parseInt(oPayload.Quantity);
-                if (AQ1 > Q1){
+                if (AQ1 > Q1) {
                     var A2 = A1 - Q1;
                     var AQ2 = A1 - A2;
                     oPayload.Availability = AQ2;
@@ -250,20 +250,20 @@ sap.ui.define(
                 try {
                     // Assuming your update method is provided by your OData V2 model
                     oDataModel.update("/Books(" + oPayload.ID + ")", oPayload, {
-                      success: function () {
-                        this.getView().byId("idBooksTable").getBinding("items").refresh();
-                        // MessageToast.show("Edited successful!");
-                        this.oUpdateBooksDialog.close();
-                      }.bind(this),
-                      error: function (oError) {
-                        this.oUpdateBooksDialog.close();
-                        sap.m.MessageBox.error("Failed to update book: " + oError.message);
-                      }.bind(this)
+                        success: function () {
+                            this.getView().byId("idBooksTable").getBinding("items").refresh();
+                            // MessageToast.show("Edited successful!");
+                            this.oUpdateBooksDialog.close();
+                        }.bind(this),
+                        error: function (oError) {
+                            this.oUpdateBooksDialog.close();
+                            sap.m.MessageBox.error("Failed to update book: " + oError.message);
+                        }.bind(this)
                     });
-                  } catch (error) {
+                } catch (error) {
                     this.oUpdateBooksDialog.close();
                     sap.m.MessageBox.error("Some technical Issue");
-                  }
+                }
                 // const sPath = "/Books";
                 // const oModel = this.getView().getModel("ModelV2");
 
@@ -308,6 +308,7 @@ sap.ui.define(
                 const sPath = oContext.getPath();
                 const oModel = this.getView().getModel("ModelV2");
                 const oBookData = oContext.getObject();
+                const oThis = this
 
                 MessageBox.confirm(
                     `Are you sure you want to delete the loan for book '${oBookData.book.Title} '?`,
@@ -319,12 +320,12 @@ sap.ui.define(
                                 oModel.remove(sPath, {
                                     success: function () {
                                         MessageBox.success(`Loan for book '${oBookData.book.Title}' deleted successfully.`);
+                                        oThis.getView().byId("idActiveLoanstable123").getBinding("items").refresh();
                                     },
                                     error: function () {
                                         MessageBox.error(`Failed to delete loan for book '${oBookData.book.Title}'.`);
                                     }
                                 });
-                                this.getView().byId("myTable").getBinding("items").refresh();
                             }
                         }
                     }
@@ -345,15 +346,49 @@ sap.ui.define(
                 this.onIssueBooksFragment.open();
             },
 
+
             onAcceptButtonIssueBookPress: async function (oEvent) {
-                if (this.byId("idIssueBooksTable").getSelectedItems().length > 1) {
-                    MessageToast.show("Please Select only one Book");
-                    return
+                if (this.byId("idIssueBooksTable").getSelectedItems().length === 0) {
+                    MessageToast.show("Please Select at least one Book to Issue..!");
+                    return;
                 }
-                var oSelectedBook = this.byId("idIssueBooksTable").getSelectedItem().getBindingContext().getObject()
-                console.log(oSelectedBook)
-                var oAvailability = parseInt(oSelectedBook.Book12.Availability) - 1
-                debugger
+
+                if (this.byId("idIssueBooksTable").getSelectedItems().length > 1) {
+                    MessageToast.show("Please Select only One Book to Issue..!");
+                    return;
+                }
+
+                var oSelectedBook = this.byId("idIssueBooksTable").getSelectedItem().getBindingContext().getObject();
+                const oModel = this.getView().getModel("ModelV2");
+
+                // Check if the user already has this book issued
+                const aFilters = [
+                    new Filter("user_ID", FilterOperator.EQ, oSelectedBook.user12.ID),
+                    new Filter("book_ID", FilterOperator.EQ, oSelectedBook.Book12.ID)
+                ];
+
+                const oExistingLoan = await new Promise((resolve, reject) => {
+                    oModel.read("/BookLoans", {
+                        filters: aFilters,
+                        success: function (oData) {
+                            if (oData.results.length > 0) {
+                                resolve(true);
+                            } else {
+                                resolve(false);
+                            }
+                        },
+                        error: function (oError) {
+                            reject(oError);
+                        }
+                    });
+                });
+
+                if (oExistingLoan) {
+                    MessageToast.show("You already have this Book..! Please check it once.");
+                    return;
+                }
+
+                var oAvailability = parseInt(oSelectedBook.Book12.Availability) - 1;
                 const userModel = new sap.ui.model.json.JSONModel({
                     user_ID: oSelectedBook.user12.ID,
                     book_ID: oSelectedBook.Book12.ID,
@@ -365,16 +400,50 @@ sap.ui.define(
                 });
                 this.getView().setModel(userModel, "userModel");
 
-                const oPayload = this.getView().getModel("userModel").getProperty("/"),
-                    oModel = this.getView().getModel("ModelV2");
+                const oPayload = this.getView().getModel("userModel").getProperty("/");
 
                 try {
                     await this.createData(oModel, oPayload, "/BookLoans");
-                    sap.m.MessageBox.success("Book Accepted");
+                    MessageBox.success("Book issued successfully.");
+                    this.onIssueBooksFragment.close();
+                    this.getView().byId("idBooksTable").getBinding("items").refresh();
                 } catch (error) {
-                    sap.m.MessageBox.error("Some technical Issue");
+                    MessageBox.error("Some technical issue occurred.");
                 }
             },
+
+            // onAcceptButtonIssueBookPress: async function (oEvent) {
+            //     if (this.byId("idIssueBooksTable").getSelectedItems().length > 1) {
+            //         MessageToast.show("Please Select only one Book");
+            //         return
+            //     }
+            //     var oSelectedBook = this.byId("idIssueBooksTable").getSelectedItem().getBindingContext().getObject()
+            //     console.log(oSelectedBook)
+            //     var oAvailability = parseInt(oSelectedBook.Book12.Availability) - 1
+            //     debugger
+            //     const userModel = new sap.ui.model.json.JSONModel({
+            //         user_ID: oSelectedBook.user12.ID,
+            //         book_ID: oSelectedBook.Book12.ID,
+            //         IssueDate: new Date(),
+            //         ReturnDate: new Date(),
+            //         book: {
+            //             Availability: oAvailability
+            //         }
+            //     });
+            //     this.getView().setModel(userModel, "userModel");
+
+            //     const oPayload = this.getView().getModel("userModel").getProperty("/"),
+            //         oModel = this.getView().getModel("ModelV2");
+
+            //     try {
+            //         await this.createData(oModel, oPayload, "/BookLoans");
+            //         sap.m.MessageBox.success("Book Accepted");
+            //     } catch (error) {
+            //         sap.m.MessageBox.error("Some technical Issue");
+            //     }
+            // },
+
+
             //For Closing Issue Books...
             onCancleIssueBookPress: function () {
                 if (this.onIssueBooksFragment.isOpen()) {
@@ -417,19 +486,19 @@ sap.ui.define(
             // },
 
 
-            handlePopoverPress:  function (oEvent) {
+            handlePopoverPress: function (oEvent) {
                 var oButton = oEvent.getSource(),
                     oView = this.getView();
-    
+
                 // create popover
                 if (!this._pPopover) {
-                    this._pPopover =  this.loadFragment("ReturnedBooksDialog").then(function(oPopover) {
+                    this._pPopover = this.loadFragment("ReturnedBooksDialog").then(function (oPopover) {
                         oView.addDependent(oPopover);
                         oPopover.bindElement("");
                         return oPopover;
                     });
                 }
-                this._pPopover.then(function(oPopover) {
+                this._pPopover.then(function (oPopover) {
                     oPopover.openBy(oButton);
                 });
             },
@@ -451,10 +520,10 @@ sap.ui.define(
             //if you click on UNDO button it will redirect to MAINPAGE...
             onBackBtnPress: function () {
                 const oRouter = this.getOwnerComponent().getRouter();
-                oRouter.navTo("RouteHome")
+                oRouter.navTo("RouteHome", {}, true)
             },
 
-            
+
             // onRefreshBtnPress:function(){
             //     this.getView().byId("idBooksTable").getBinding("items").refresh();
             // }
