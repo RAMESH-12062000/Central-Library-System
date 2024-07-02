@@ -1,0 +1,97 @@
+_schema-version: "3.1"
+ID: CENTRAL-LIBRARY-SYSTEM
+description: A simple CAP project.
+version: 1.0.0
+modules:
+  - name: CENTRAL-LIBRARY-SYSTEM-srv
+    type: nodejs
+    path: gen/srv
+    requires:
+      - name: CENTRAL-LIBRARY-SYSTEM-db
+      - name: uaa_CENTRAL-LIBRARY-SYSTEM
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+      readiness-health-check-http-endpoint: /health
+      readiness-health-check-type: http
+    build-parameters:
+      builder: npm
+  - name: CENTRAL-LIBRARY-SYSTEM-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: CENTRAL-LIBRARY-SYSTEM-db
+    parameters:
+      buildpack: nodejs_buildpack
+  - name: CENTRAL-LIBRARY-SYSTEM-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: CENTRAL-LIBRARY-SYSTEM-destination-service
+        parameters:
+          content-target: true
+      - name: CENTRAL-LIBRARY-SYSTEM_html_repo_host
+        parameters:
+          service-key:
+            name: CENTRAL-LIBRARY-SYSTEM_html_repo_host-key
+      - name: uaa_CENTRAL-LIBRARY-SYSTEM
+        parameters:
+          service-key:
+            name: uaa_CENTRAL-LIBRARY-SYSTEM-key
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: librarySecure_CENTRAL_LIBRARY_SYSTEM_html_repo_host
+              ServiceInstanceName: CENTRAL-LIBRARY-SYSTEM-html5-app-host-service
+              ServiceKeyName: CENTRAL-LIBRARY-SYSTEM_html_repo_host-key
+              sap.cloud.service: librarySecure
+            - Authentication: OAuth2UserTokenExchange
+              Name: librarySecure_uaa_CENTRAL_LIBRARY_SYSTEM
+              ServiceInstanceName: CENTRAL-LIBRARY-SYSTEM-xsuaa-service
+              ServiceKeyName: uaa_CENTRAL-LIBRARY-SYSTEM-key
+              sap.cloud.service: librarySecure
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+resources:
+  - name: CENTRAL-LIBRARY-SYSTEM-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: CENTRAL-LIBRARY-SYSTEM-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        version: 1.0.0
+      service: destination
+      service-name: CENTRAL-LIBRARY-SYSTEM-destination-service
+      service-plan: lite
+  - name: CENTRAL-LIBRARY-SYSTEM_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: CENTRAL-LIBRARY-SYSTEM-html5-app-host-service
+      service-plan: app-host
+  - name: uaa_CENTRAL-LIBRARY-SYSTEM
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-name: CENTRAL-LIBRARY-SYSTEM-xsuaa-service
+      service-plan: application
+      config:
+        xsappname: CENTRAL-LIBRARY-SYSTEM-${org}-${space}
+        tenant-mode: dedicated
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
